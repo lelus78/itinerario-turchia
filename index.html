@@ -225,6 +225,25 @@
         .cultura-card:hover .overlay { background: linear-gradient(to top, rgba(10,18,35,0.85) 0%, rgba(10,18,35,0.2) 60%, transparent 100%); }
         .cultura-card .info { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 16px; }
 
+        /* ── Prima di Partire — Checklist ── */
+        .check-item { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; padding: 4px 0; }
+        .check-item input[type="checkbox"] {
+            width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0;
+            accent-color: #10b981; cursor: pointer; border-radius: 3px;
+        }
+        .check-item span {
+            font-size: 13px; color: #475569; line-height: 1.4;
+            transition: opacity 0.3s, color 0.3s;
+        }
+        .check-item input:checked + span { text-decoration: line-through; opacity: 0.45; color: #94a3b8; }
+        .prep-card {
+            background: #fff; border-radius: 1.25rem;
+            border: 1px solid #f1f5f9; padding: 1.25rem 1.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .prep-bar { height: 4px; border-radius: 2px; background: #e2e8f0; overflow: hidden; margin-top: 10px; }
+        .prep-bar-fill { height: 100%; width: 0%; background: linear-gradient(to right, #0ea5e9, #10b981); border-radius: 2px; transition: width 0.4s ease; }
+
         /* Route pill */
         .route-pill {
             display: flex; align-items: center; gap: 10px;
@@ -332,6 +351,135 @@
 
 <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
 <main class="container mx-auto px-4 py-16 md:py-20 max-w-7xl" id="itinerario">
+
+    <!-- ═══════════════ PRIMA DI PARTIRE ═══════════════ -->
+    <section class="mb-20">
+        <div class="text-center mb-10">
+            <span class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-5">
+                <i class="fa-solid fa-list-check"></i> Checklist Pre-Partenza
+            </span>
+            <h3 class="serif text-5xl font-bold text-slate-800 mb-3">Prima di Partire</h3>
+            <p class="text-slate-400 text-sm">Spunta ogni voce man mano che prepari il viaggio — lo stato viene salvato automaticamente</p>
+            <div class="flex items-center justify-center gap-3 mt-5">
+                <div class="prep-bar w-48"><div class="prep-bar-fill" id="global-bar"></div></div>
+                <span id="global-count" class="text-sm font-bold text-slate-500">0 / 0 completati</span>
+            </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+            <!-- Documenti -->
+            <div class="prep-card reveal">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><span class="text-lg">📋</span> Documenti & Visto</h4>
+                    <span class="text-xs font-bold text-slate-400" data-prog="doc">0/6</span>
+                </div>
+                <div class="space-y-1" data-group="doc">
+                    <label class="check-item"><input type="checkbox" data-key="doc-1"><span>Passaporto valido (almeno 6 mesi dopo il rientro)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="doc-2"><span>E-Visa turistica online — <strong>evisa.gov.tr</strong> (~$50, 5 min)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="doc-3"><span>Patente di guida + Carta Verde estesa alla Turchia</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="doc-4"><span>Tessera sanitaria europea EHIC</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="doc-5"><span>Assicurazione sanitaria integrativa per Turchia</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="doc-6"><span>Foto van (libretto, assicurazione) salvate su telefono</span></label>
+                </div>
+                <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
+            </div>
+
+            <!-- Van check -->
+            <div class="prep-card reveal delay-1">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><span class="text-lg">🚐</span> Van Check-up</h4>
+                    <span class="text-xs font-bold text-slate-400" data-prog="van">0/7</span>
+                </div>
+                <div class="space-y-1" data-group="van">
+                    <label class="check-item"><input type="checkbox" data-key="van-1"><span>Tagliando completo (olio, filtri, candele)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="van-2"><span>Pneumatici: pressione + gomma di scorta</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="van-3"><span>Freni, luci, fari verificati</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="van-4"><span>Kit emergenza: triangolo, gilet, estintore</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="van-5"><span>Batteria ausiliaria e pannello solare carico</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="van-6"><span>Frigorifero e fornello testati</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="van-7"><span>Cisterna acqua pulita + WC chimico riforniti</span></label>
+                </div>
+                <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
+            </div>
+
+            <!-- Valuta -->
+            <div class="prep-card reveal delay-2">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><span class="text-lg">💶</span> Valuta & Pagamenti</h4>
+                    <span class="text-xs font-bold text-slate-400" data-prog="pay">0/5</span>
+                </div>
+                <div class="space-y-1" data-group="pay">
+                    <label class="check-item"><input type="checkbox" data-key="pay-1"><span>Carta senza commissioni estero (Revolut/N26)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="pay-2"><span>€200-300 cash da cambiare in Lire Turche a Istanbul (tassi migliori al Bazaar)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="pay-3"><span>HGS pedaggi: comprare all'ingresso in Turchia (PTT o area di servizio)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="pay-4"><span>Notifica alla banca: uso carta all'estero (evita blocchi)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="pay-5"><span>Budget carburante: ~€350-400 (gasolio in Turchia ~€1.40/l)</span></label>
+                </div>
+                <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
+            </div>
+
+            <!-- App -->
+            <div class="prep-card reveal">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><span class="text-lg">📱</span> App Indispensabili</h4>
+                    <span class="text-xs font-bold text-slate-400" data-prog="app">0/6</span>
+                </div>
+                <div class="space-y-1" data-group="app">
+                    <label class="check-item"><input type="checkbox" data-key="app-1"><span><strong>Park4Night</strong> — soste camper recensite</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-2"><span><strong>Google Maps offline</strong> — scarica la mappa della Turchia</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-3"><span><strong>iOverlander</strong> — soste camper alternative</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-4"><span><strong>Google Translate</strong> — abilita traduzione offline turco</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-5"><span><strong>XE Currency</strong> — cambio €/TRY in tempo reale</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-6"><span><strong>SIM turca / eSIM</strong> (Airalo, Holafly) — da attivare a Istanbul</span></label>
+                </div>
+                <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
+            </div>
+
+            <!-- Lista spesa van -->
+            <div class="prep-card reveal delay-1">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><span class="text-lg">🛒</span> Lista della Spesa Van</h4>
+                    <span class="text-xs font-bold text-slate-400" data-prog="shop">0/8</span>
+                </div>
+                <div class="space-y-1" data-group="shop">
+                    <label class="check-item"><input type="checkbox" data-key="shop-1"><span>Crema solare SPF 50+ (luglio caldo intenso)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-2"><span>Repellente zanzare (costa e zone verdi)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-3"><span>Kit pronto soccorso aggiornato</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-4"><span>Detergenti bio (rispetto per le soste in natura)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-5"><span>Adattatore elettrico (Turchia: spina tipo F, uguale Italia)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-6"><span>Borsa termica per fare scorta al mercato</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-7"><span>Carica batterie USB + power bank</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="shop-8"><span>Candele/luce da campeggio per serate all'aperto</span></label>
+                </div>
+                <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
+            </div>
+
+            <!-- Cultura -->
+            <div class="prep-card reveal delay-2">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-bold text-slate-800 flex items-center gap-2"><span class="text-lg">🕌</span> Cultura & Rispetto</h4>
+                    <span class="text-xs font-bold text-slate-400" data-prog="cult">0/5</span>
+                </div>
+                <div class="space-y-1" data-group="cult">
+                    <label class="check-item"><input type="checkbox" data-key="cult-1"><span>Portare una sciarpa/scialle per coprirsi nelle moschee</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="cult-2"><span>Abbigliamento rispettoso: spalle e ginocchia coperte nei luoghi sacri</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="cult-3"><span>Imparare le basi: <em>Merhaba</em> (ciao), <em>Teşekkürler</em> (grazie), <em>Evet/Hayır</em> (sì/no)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="cult-4"><span>Il tè (çay) offerto è un gesto di ospitalità — accettarlo è cortesia</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="cult-5"><span>Contrattare al bazaar è normale e atteso — inizia al 50% del prezzo</span></label>
+                </div>
+                <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
+            </div>
+
+        </div>
+
+        <!-- Reset button -->
+        <div class="text-center mt-6">
+            <button type="button" id="reset-checks" class="text-xs text-slate-400 hover:text-rose-500 transition-colors border border-slate-200 hover:border-rose-300 rounded-full px-4 py-1.5">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Azzera checklist
+            </button>
+        </div>
+    </section>
 
     <div class="flex flex-col lg:flex-row gap-10 relative">
 
@@ -1089,6 +1237,49 @@
     });
 
     setTrackerStop(0);
+
+    // ── Checklist Pre-Partenza con localStorage ──
+    const allChecks = document.querySelectorAll('input[data-key]');
+
+    function updateBars() {
+        // Per-card progress
+        document.querySelectorAll('[data-group]').forEach(group => {
+            const name = group.dataset.group;
+            const checks = group.querySelectorAll('input[type="checkbox"]');
+            const done = [...checks].filter(c => c.checked).length;
+            const fill = group.closest('.prep-card')?.querySelector('.prep-bar-fill');
+            const label = document.querySelector(`[data-prog="${name}"]`);
+            if (fill) fill.style.width = (done / checks.length * 100) + '%';
+            if (label) label.textContent = `${done}/${checks.length}`;
+        });
+        // Global progress
+        const total = allChecks.length;
+        const done = [...allChecks].filter(c => c.checked).length;
+        const gb = document.getElementById('global-bar');
+        const gc = document.getElementById('global-count');
+        if (gb) gb.style.width = (done / total * 100) + '%';
+        if (gc) gc.textContent = `${done} / ${total} completati`;
+    }
+
+    // Restore from localStorage
+    allChecks.forEach(cb => {
+        cb.checked = localStorage.getItem('prep_' + cb.dataset.key) === '1';
+        cb.addEventListener('change', () => {
+            localStorage.setItem('prep_' + cb.dataset.key, cb.checked ? '1' : '0');
+            updateBars();
+        });
+    });
+    updateBars();
+
+    // Reset button
+    document.getElementById('reset-checks')?.addEventListener('click', () => {
+        if (!confirm('Azzerare tutta la checklist?')) return;
+        allChecks.forEach(cb => {
+            cb.checked = false;
+            localStorage.removeItem('prep_' + cb.dataset.key);
+        });
+        updateBars();
+    });
 
     // ── Visitor counter (CountAPI — auto-create, free, no signup) ──
     fetch('https://api.countapi.xyz/hit/lelus78.itinerario-turchia/visits')
