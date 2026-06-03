@@ -32,7 +32,7 @@
         .hero-img {
             position: absolute;
             inset: -8%;
-            background: url('Picture/hot-air-balloons-before-launch-in-Goreme-national-park-Cappadocia-Turkey.jpg') center / cover;
+            background: url('Picture/cappadocia-hero.jpg') center / cover;
             animation: hero-ken-burns 30s ease-in-out infinite alternate;
             will-change: transform;
             z-index: 0;
@@ -124,7 +124,7 @@
         .glass { background: rgba(255,255,255,0.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); }
 
         /* Footer bg image */
-        .footer-bg { background: url('Picture/hot-air-balloons-before-launch-in-Goreme-national-park-Cappadocia-Turkey.jpg') center/cover; }
+        .footer-bg { background: url('Picture/cappadocia-hero.jpg') center/cover; }
 
         /* ── Van Journey Tracker ── */
         #van-tracker {
@@ -445,12 +445,12 @@
             <div class="flex flex-col sm:flex-row gap-3">
                 <div class="flex-1 relative">
                     <i class="fa-solid fa-location-dot absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
-                    <input id="dep-city" type="text" placeholder="La tua città (es. Roma, Napoli, Palermo...)"
+                    <input id="dep-city" type="text" value="Milano" placeholder="Città di partenza"
                         class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 focus:outline-none focus:border-brand/50">
                 </div>
                 <div class="relative">
                     <i class="fa-solid fa-calendar absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
-                    <input id="dep-date" type="date" value="2026-07-25" aria-label="Data di partenza"
+                    <input id="dep-date" type="date" value="2026-07-01" aria-label="Data di partenza"
                         class="pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 focus:outline-none focus:border-brand/50">
                 </div>
                 <button id="btn-calc" type="button"
@@ -603,7 +603,7 @@
                 <div class="p-6 md:p-8 pl-8">
                     <div class="flex items-center justify-between mb-5">
                         <span class="bg-gradient-to-r from-brand to-brand-dark text-white text-xs font-bold px-4 py-1.5 rounded-full shadow shadow-brand/30 tracking-wide">
-                            <i class="fa-solid fa-flag-checkered mr-1.5"></i> START · 25–27 LUGLIO
+                            <i class="fa-solid fa-flag-checkered mr-1.5"></i> <span id="badge-start">START</span>
                         </span>
                         <div class="w-10 h-10 bg-white text-brand font-bold rounded-full flex items-center justify-center shadow border border-brand/20 text-sm">0</div>
                     </div>
@@ -660,7 +660,7 @@
                     <div class="grid grid-cols-3 gap-2 mb-5">
                         <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
                         <img src="Picture/istanbul-bluemosque.jpg" alt="Moschea Blu" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
-                        <img src="Picture/Bosphorus Bridge.jpg" alt="Bosforo al tramonto" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
+                        <img src="Picture/bosphorus-bridge.jpg" alt="Bosforo al tramonto" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
                     </div>
 
                     <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
@@ -703,7 +703,7 @@
                     <div class="grid grid-cols-3 gap-2 mb-5">
                         <img src="Picture/efeso-biblioteca.jpg" alt="Biblioteca di Celso" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
                         <img src="Picture/11.efeso-tempio-di-adriano.jpg" alt="Tempio di Adriano" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
-                        <img src="Picture/Via dei Cureti.jpg" alt="Via dei Cureti" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
+                        <img src="Picture/via-dei-cureti.jpg" alt="Via dei Cureti" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
                     </div>
 
                     <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
@@ -811,7 +811,7 @@
             <!-- ─── Tappa 5: Cappadocia ─── -->
             <article class="reveal delay-2 bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(5)">
                 <div class="h-72 card-img relative">
-                    <img src="Picture/hot-air-balloons-before-launch-in-Goreme-national-park-Cappadocia-Turkey.jpg" alt="Cappadocia – Mongolfiere all'alba" class="w-full h-full object-cover">
+                    <img src="Picture/cappadocia-hero.jpg" alt="Cappadocia – Mongolfiere all'alba" class="w-full h-full object-cover">
                     <div class="img-overlay"></div>
                     <div class="absolute bottom-5 left-6 right-16">
                         <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">9–12 Agosto · 4 giorni</p>
@@ -856,7 +856,7 @@
                 <div class="p-6 md:p-8 pl-8">
                     <div class="flex items-center justify-between mb-5">
                         <span class="bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow shadow-green-500/30 tracking-wide">
-                            <i class="fa-solid fa-house mr-1.5"></i> RETURN · 13–15 AGOSTO
+                            <i class="fa-solid fa-house mr-1.5"></i> <span id="badge-return">RETURN</span>
                         </span>
                         <div class="w-10 h-10 bg-white text-green-600 font-bold rounded-full flex items-center justify-center shadow border border-green-200 text-sm">6</div>
                     </div>
@@ -942,7 +942,7 @@
                 </div>
             </div>
             <div class="reveal cultura-card h-52 shadow-md">
-                <img src="Picture/Bosphorus Bridge.jpg" alt="Bosforo" class="enlargeable">
+                <img src="Picture/bosphorus-bridge.jpg" alt="Bosforo" class="enlargeable">
                 <div class="overlay"></div>
                 <div class="info">
                     <p class="text-white text-xs font-bold uppercase tracking-widest mb-0.5 opacity-70">Icona</p>
@@ -1008,7 +1008,7 @@
                 <span class="absolute bottom-2 left-3 text-white text-xs font-bold">Şiş Kebab ✓ GF</span>
             </div>
             <div class="relative h-36 overflow-hidden rounded-xl group cursor-pointer">
-                <img src="Picture/kebab alla griglia.png" alt="Kebab alla brace" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 enlargeable">
+                <img src="Picture/kebab-alla-griglia.png" alt="Kebab alla brace" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 enlargeable">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent pointer-events-none"></div>
                 <span class="absolute bottom-2 left-3 text-white text-xs font-bold">Adana Kebab ✓ GF</span>
             </div>
@@ -1635,15 +1635,75 @@
         }
     }
 
+    // ── Update START/RETURN badges ──
+    function updateStartReturnBadges(depDateStr) {
+        const dep = new Date(depDateStr + 'T00:00:00');
+
+        // START badge: departure date + 3 travel days arrival
+        const s0 = new Date(dep);
+        const s2 = new Date(dep); s2.setDate(dep.getDate() + 2);
+        const startTxt = `${s0.getDate()}–${s2.getDate()} ${MONTHS_IT[s0.getMonth()].toUpperCase()}`;
+        const bStart = document.getElementById('badge-start');
+        if (bStart) bStart.textContent = 'START · ' + startTxt;
+
+        // RETURN badge: offset 19, duration 3
+        const r0 = new Date(dep); r0.setDate(dep.getDate() + 19);
+        const r2 = new Date(dep); r2.setDate(dep.getDate() + 21);
+        const retTxt = r0.getMonth() === r2.getMonth()
+            ? `${r0.getDate()}–${r2.getDate()} ${MONTHS_IT[r0.getMonth()].toUpperCase()}`
+            : `${r0.getDate()} ${MONTHS_IT[r0.getMonth()].slice(0,3).toUpperCase()} – ${r2.getDate()} ${MONTHS_IT[r2.getMonth()].slice(0,3).toUpperCase()}`;
+        const bReturn = document.getElementById('badge-return');
+        if (bReturn) bReturn.textContent = 'RETURN · ' + retTxt;
+    }
+
     // Init dates with default departure
     const depDateInput = document.getElementById('dep-date');
     if (depDateInput) {
         updateDates(depDateInput.value);
+        updateStartReturnBadges(depDateInput.value);
         depDateInput.addEventListener('change', () => {
             updateTemperatures();
             updateDates(depDateInput.value);
+            updateStartReturnBadges(depDateInput.value);
         });
     }
+
+    // ── Auto-init con Milano (coordinate fisse, no API call) ──
+    (function initMilano() {
+        const MILANO = { lat: 45.4654, lon: 9.1866, name: 'Milano' };
+        const LJ = { lat: 46.0511, lon: 14.5051 };
+        const distLj = Math.round(haversineKm(MILANO.lat, MILANO.lon, LJ.lat, LJ.lon) * 1.38);
+        const totalKm = distLj + 1560;
+        const depDateStr = document.getElementById('dep-date')?.value || '2026-07-01';
+        const dep = new Date(depDateStr + 'T00:00:00');
+        const istDate = new Date(dep); istDate.setDate(dep.getDate() + 5);
+
+        // Update tappa 0
+        const t0 = document.querySelector('article[onclick="focusMap(0)"]');
+        if (t0) {
+            const desc = t0.querySelector('p.text-slate-500');
+            if (desc) desc.textContent = `Da Milano: ~${totalKm.toLocaleString('it-IT')} km in 5 giorni fino a Istanbul.`;
+            const cells = t0.querySelectorAll('.grid > div');
+            const opts1 = [{l:'Milano → Ljubljana',km:distLj},{l:'Ljubljana → Belgrado',km:550},{l:'Belgrado → Istanbul',km:1010}];
+            cells.forEach((c,i) => { if(opts1[i]) { const ps = c.querySelectorAll('p'); if(ps[1]) ps[1].textContent = opts1[i].l; if(ps[2]) ps[2].textContent = `~${opts1[i].km} km`; } });
+        }
+
+        // Update total km label
+        const kmLabel = document.getElementById('total-km-label');
+        if (kmLabel) kmLabel.textContent = `~${totalKm.toLocaleString('it-IT')} km`;
+
+        // Update map waypoints (silently)
+        if (typeof waypoints !== 'undefined') {
+            waypoints[0].coords = [MILANO.lat, MILANO.lon];
+            waypoints[0].name = 'Milano';
+            waypoints[6].coords = [MILANO.lat, MILANO.lon];
+            waypoints[6].name = 'Milano (Rientro)';
+            if (markers[0]) markers[0].setLatLng([MILANO.lat, MILANO.lon]);
+            if (markers[6]) markers[6].setLatLng([MILANO.lat, MILANO.lon]);
+            outboundPath[0] = [MILANO.lat, MILANO.lon];
+            returnPath[returnPath.length - 1] = [MILANO.lat, MILANO.lon];
+        }
+    })();
 
     // ── Visitor counter — hits.sh (Cloudflare, zero-config) ──
     // Image load triggers count; fetch SVG text to extract number
