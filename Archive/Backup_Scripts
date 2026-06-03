@@ -1,0 +1,42 @@
+import base64
+import os
+import re
+
+html_path = 'index.html'
+picture_dir = 'Picture'
+
+# Mapping of Base64 contents to file paths in 'Picture/'
+# We'll use the original filenames from the 'Image' folder
+image_mapping = {
+    "antalya.webp": "Picture/antalya.webp",
+    "Derinkuyu-2187873346.jpg": "Picture/Derinkuyu-2187873346.jpg",
+    "Kaputas-Beach-in-Antalya-in-Turkey-254624240.jpg": "Picture/Kaputas-Beach-in-Antalya-in-Turkey-254624240.jpg",
+    "la-cisterna-basilica-1346887330.jpg": "Picture/la-cisterna-basilica-1346887330.jpg",
+    "laguna blu.jpg": "Picture/laguna blu.jpg",
+    "le-mongolfiere-vola-cappadocia-turchia-75082843-1568703623.jpg": "Picture/le-mongolfiere-vola-cappadocia-turchia-75082843-1568703623.jpg",
+    "Pamukkale-337-4205517969.jpg": "Picture/Pamukkale-337-4205517969.jpg",
+    "piscine di cleopatra.jpg": "Picture/piscine di cleopatra.jpg",
+    "valle-di-goreme-cappadocia-ottobre-2022-fratesole-27-1920x1440-128587449.jpg": "Picture/valle-di-goreme-cappadocia-ottobre-2022-fratesole-27-1920x1440-128587449.jpg",
+    "Visitare-Efeso-4-493409157.jpg": "Picture/Visitare-Efeso-4-493409157.jpg"
+}
+
+with open(html_path, 'r', encoding='utf-8') as f:
+    html_content = f.read()
+
+# Replace Base64 strings with folder paths
+# Since we don't know the exact base64 strings easily, we can replace the entire 'src="..."' 
+# or look for patterns. However, a better way is to find the data:image/... base64 blocks.
+# But since I know which file corresponds to which context in the HTML, 
+# I can just re-apply the structural changes using the folder paths.
+
+print("Reverting Base64 to folder paths...")
+
+# List of Unsplash placeholders and their replacements we used before
+# We'll replace the data URIs. Since they are long, we use a regex to find them.
+# However, the user also wants NEW images.
+
+# Let's use a simpler approach: I will write a fresh version of index.html
+# using the Picture/ paths and adding external high-quality URLs for the new photos.
+
+# For now, let's just do the folder path refactoring.
+# I will use the 'replace' tool turn-by-turn to be safe or write the whole file if it's easier.
