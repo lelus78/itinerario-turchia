@@ -889,6 +889,17 @@
     <div class="relative z-10">
         <p class="serif text-3xl text-white/80 mb-2 font-light italic">Vanlife Adventures</p>
         <p class="text-sm">© 2026 · Creato per esploratori su ruote</p>
+
+        <!-- Visitor counter -->
+        <div class="flex items-center justify-center gap-2 mt-4">
+            <div class="inline-flex items-center gap-2.5 bg-white/5 border border-white/10 rounded-full px-5 py-2 backdrop-blur-sm">
+                <i class="fa-solid fa-eye text-brand text-xs"></i>
+                <span class="text-xs text-slate-400 uppercase tracking-widest">Visitatori</span>
+                <span id="hit-count" class="text-sm font-bold text-white/80 tabular-nums min-w-[2rem] text-center">
+                    <span class="inline-block w-4 h-1 bg-white/20 rounded animate-pulse"></span>
+                </span>
+            </div>
+        </div>
     </div>
 </footer>
 
@@ -1078,6 +1089,20 @@
     });
 
     setTrackerStop(0);
+
+    // ── Visitor counter (CountAPI — auto-create, free, no signup) ──
+    fetch('https://api.countapi.xyz/hit/lelus78.itinerario-turchia/visits')
+        .then(r => r.json())
+        .then(d => {
+            const el = document.getElementById('hit-count');
+            if (el && d.value) {
+                el.innerHTML = d.value.toLocaleString('it-IT');
+            }
+        })
+        .catch(() => {
+            const el = document.getElementById('hit-count');
+            if (el) el.innerHTML = '<span class="opacity-40">—</span>';
+        });
 </script>
 </body>
 </html>
