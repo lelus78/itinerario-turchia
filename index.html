@@ -25,32 +25,50 @@
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
 
-        /* Hero — fixed attachment only on desktop (iOS Safari doesn't support it) */
-        .hero-bg {
-            background: linear-gradient(150deg, rgba(10,18,35,0.82) 0%, rgba(2,110,180,0.35) 55%, rgba(10,18,35,0.88) 100%),
-                        url('Picture/mongolfiere-cappadocia.jpg') center 30% / cover scroll;
-        }
-        @media (min-width: 1024px) {
-            .hero-bg { background-attachment: fixed, fixed; }
-        }
-        .hero-bg::after {
-            content: '';
+        /* Hero — no fixed-attachment (causa scroll jank + bug iOS) */
+        .hero-bg { position: relative; overflow: hidden; background: none; }
+
+        /* Immagine animata con Ken Burns GPU-accelerated */
+        .hero-img {
             position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 140px;
-            background: linear-gradient(transparent, #f0f4f8);
+            inset: -8%;
+            background: url('Picture/hot-air-balloons-before-launch-in-Goreme-national-park-Cappadocia-Turkey.jpg') center / cover;
+            animation: hero-ken-burns 30s ease-in-out infinite alternate;
+            will-change: transform;
+            z-index: 0;
+        }
+        @keyframes hero-ken-burns {
+            from { transform: scale3d(1, 1, 1) translate3d(0, 0, 0); }
+            to   { transform: scale3d(1.08, 1.08, 1) translate3d(-2%, -1%, 0); }
         }
 
-        /* Scroll animations */
-        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* Overlay gradiente sopra l'immagine */
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: linear-gradient(150deg, rgba(10,18,35,0.82) 0%, rgba(2,110,180,0.30) 55%, rgba(10,18,35,0.85) 100%);
+        }
+
+        /* Sfumatura verso il contenuto della pagina */
+        .hero-bg::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 0; right: 0; height: 140px; z-index: 2;
+            background: linear-gradient(transparent, #f0f4f8);
+            pointer-events: none;
+        }
+
+        /* Tutto il contenuto hero sopra l'immagine */
+        .hero-bg > *:not(.hero-img):not(.hero-overlay) { position: relative; z-index: 3; }
+
+        /* Scroll reveal — translate3d per GPU compositing */
+        .reveal { opacity: 0; transform: translate3d(0, 28px, 0); transition: opacity 0.6s ease, transform 0.6s ease; will-change: transform, opacity; }
+        .reveal.visible { opacity: 1; transform: translate3d(0, 0, 0); }
         .delay-1 { transition-delay: 0.12s; }
         .delay-2 { transition-delay: 0.24s; }
 
-        /* Card image */
+        /* Card image — GPU-accelerated hover */
         .card-img { overflow: hidden; position: relative; }
-        .card-img img { transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94); }
-        .group:hover .card-img img { transform: scale(1.07); }
+        .card-img img { transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); will-change: transform; transform: translateZ(0); }
+        .group:hover .card-img img { transform: scale3d(1.07, 1.07, 1); }
         .card-img .img-overlay {
             position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(10,18,35,0.65) 0%, rgba(10,18,35,0.1) 50%, transparent 100%);
@@ -106,7 +124,7 @@
         .glass { background: rgba(255,255,255,0.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); }
 
         /* Footer bg image */
-        .footer-bg { background: url('Picture/mongolfiere-cappadocia.jpg') center/cover; }
+        .footer-bg { background: url('Picture/hot-air-balloons-before-launch-in-Goreme-national-park-Cappadocia-Turkey.jpg') center/cover; }
 
         /* Route pill */
         .route-pill {
@@ -136,6 +154,8 @@
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <header class="hero-bg text-white min-h-[88vh] flex flex-col justify-center px-6 md:px-14 lg:px-24 relative overflow-hidden">
+    <div class="hero-img" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
 
     <div class="max-w-5xl relative z-10 pt-16 pb-28">
 
