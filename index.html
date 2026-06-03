@@ -359,7 +359,7 @@
         <div class="inline-flex items-center gap-2 bg-white/10 border border-white/25 backdrop-blur-sm text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full tracking-widest uppercase mb-7">
             <span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span>
             <i class="fa-solid fa-calendar-days mr-1"></i>
-            25 Luglio – 15 Agosto 2026
+            <span id="badge-header-dates">1 Luglio – 22 Luglio 2026</span>
         </div>
 
         <!-- Title -->
@@ -1654,6 +1654,13 @@
             : `${r0.getDate()} ${MONTHS_IT[r0.getMonth()].slice(0,3).toUpperCase()} – ${r2.getDate()} ${MONTHS_IT[r2.getMonth()].slice(0,3).toUpperCase()}`;
         const bReturn = document.getElementById('badge-return');
         if (bReturn) bReturn.textContent = 'RETURN · ' + retTxt;
+
+        // Header badge: total trip range (dep to r2)
+        const bHeader = document.getElementById('badge-header-dates');
+        if (bHeader) {
+            const range = formatRange(dep, r2);
+            bHeader.textContent = range.charAt(0).toUpperCase() + range.slice(1) + ' 2026';
+        }
     }
 
     // Init dates with default departure
