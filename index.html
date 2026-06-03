@@ -3,118 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turchia in Camper Van (6m): Itinerario Pro</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Turchia in Camper Van — Itinerario Pro</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome per le icone -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Leaflet CSS per la Mappa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            scroll-behavior: smooth;
+        :root {
+            --brand: #0ea5e9;
+            --brand-dark: #0284c7;
+            --gold: #c9973a;
         }
 
-        /* Stile personalizzato per la scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1e293b; scroll-behavior: smooth; }
+
+        .serif { font-family: 'Cormorant Garamond', serif; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+
+        /* Hero */
+        .hero-bg {
+            background: linear-gradient(150deg, rgba(10,18,35,0.82) 0%, rgba(2,110,180,0.35) 55%, rgba(10,18,35,0.88) 100%),
+                        url('Picture/mongolfiere-cappadocia.jpg') center 30% / cover fixed;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 140px;
+            background: linear-gradient(transparent, #f0f4f8);
         }
 
-        /* Marker mappa personalizzato */
-        .custom-div-icon {
-            background: transparent;
-            border: none;
+        /* Scroll animations */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.12s; }
+        .delay-2 { transition-delay: 0.24s; }
+
+        /* Card image */
+        .card-img { overflow: hidden; position: relative; }
+        .card-img img { transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .group:hover .card-img img { transform: scale(1.07); }
+        .card-img .img-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,18,35,0.65) 0%, rgba(10,18,35,0.1) 50%, transparent 100%);
         }
+
+        /* Custom map markers */
+        .custom-div-icon { background: transparent; border: none; }
         .marker-pin {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #0ea5e9;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            transition: transform 0.3s ease;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--brand); border: 3px solid #fff;
+            box-shadow: 0 4px 12px rgba(14,165,233,0.45);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 12px; font-weight: 700;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
         }
         .marker-pin.active {
-            background: #f59e0b;
-            transform: scale(1.3);
-            z-index: 1000 !important;
-        }
-        
-        .hero-bg {
-            background-image: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)), url('Picture/mongolfiere-cappadocia.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background: var(--gold); transform: scale(1.45);
+            box-shadow: 0 4px 20px rgba(201,151,58,0.65);
         }
 
-        /* Effetto sfocatura per le card logistiche */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Lightbox Styles */
+        /* Lightbox */
         #lightbox {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(15, 23, 42, 0.95);
-            cursor: zoom-out;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            animation: fadeIn 0.3s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            display: none; position: fixed; z-index: 9999;
+            inset: 0; background: rgba(10,18,35,0.96);
+            cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem;
         }
         #lightbox img {
-            max-width: 100%;
-            max-height: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border-radius: 0.75rem;
-            object-fit: contain;
-            transform: scale(0.95);
-            transition: transform 0.3s ease-out;
+            max-width: 90vw; max-height: 85vh; border-radius: 0.75rem;
+            object-fit: contain; transform: scale(0.92);
+            transition: transform 0.3s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
-        #lightbox.active img {
-            transform: scale(1);
+        #lightbox.active img { transform: scale(1); }
+        .enlargeable { cursor: zoom-in; }
+
+        /* Animated number counter */
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; } 50% { opacity: 0.3; }
         }
-        .enlargeable {
-            cursor: zoom-in;
+        .pulse-dot { animation: pulse-dot 2s infinite; }
+
+        /* Scroll down indicator */
+        @keyframes float-down {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
         }
+        .scroll-arrow { animation: float-down 2.2s ease-in-out infinite; }
+
+        /* Section divider */
+        .divider { height: 1px; background: linear-gradient(to right, transparent, #0ea5e9, transparent); }
+
+        /* Glass tip cards */
+        .glass { background: rgba(255,255,255,0.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); }
+
+        /* Footer bg image */
+        .footer-bg { background: url('Picture/mongolfiere-cappadocia.jpg') center/cover; }
+
+        /* Route pill */
+        .route-pill {
+            display: flex; align-items: center; gap: 10px;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            border-radius: 16px; padding: 10px 14px; font-size: 12px;
+        }
+
+        /* Tag chips */
+        .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
     </style>
 
     <script>
@@ -122,11 +121,8 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            light: '#38bdf8',
-                            DEFAULT: '#0ea5e9',
-                            dark: '#0284c7',
-                        }
+                        brand: { light: '#38bdf8', DEFAULT: '#0ea5e9', dark: '#0284c7' },
+                        gold: { DEFAULT: '#c9973a', light: '#f0c06a' }
                     }
                 }
             }
@@ -135,473 +131,533 @@
 </head>
 <body class="antialiased">
 
-    <header class="hero-bg text-white py-24 px-6 md:px-12 lg:px-24 flex flex-col justify-center min-h-[60vh] relative overflow-hidden">
-        <div class="max-w-4xl relative z-10 animate-fade-in-up">
-            <span class="inline-block py-1 px-3 rounded-full bg-brand/20 border border-brand text-brand-light text-sm font-semibold tracking-wider mb-4 uppercase">
-                <i class="fa-solid fa-calendar-days mr-2"></i> 25 Luglio - 15 Agosto 2026 (Rientro Totale)
-            </span>
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-                Turchia: Il Grande Tour <br><span class="text-brand-light">Versione Pro (3 Settimane)</span>
-            </h1>
-            <p class="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl">
-                Viaggiare in Turchia con un van di 6 metri è un'esperienza straordinaria: massima libertà, accesso a strade secondarie e ottime possibilità di sosta. Scopri l'itinerario classico, i tempi di percorrenza e i consigli logistici mirati.
-            </p>
-            <div class="mt-8">
-                <a href="#itinerario" class="bg-brand hover:bg-brand-dark text-white font-semibold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-brand/50 inline-flex items-center">
-                    Inizia l'Avventura <i class="fa-solid fa-arrow-down ml-2"></i>
-                </a>
-            </div>
-        </div>
-    </header>
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero-bg text-white min-h-[88vh] flex flex-col justify-center px-6 md:px-14 lg:px-24 relative overflow-hidden">
 
-    <main class="container mx-auto px-4 py-12 md:py-16 max-w-7xl" id="itinerario">
-        
-        <div class="flex flex-col lg:flex-row gap-8 relative">
-            
-            <!-- Lato Sinistro: Timeline / Tappe -->
-            <div class="lg:w-3/5 space-y-8">
-                
-                <!-- Tappa 0: Partenza Intelligente -->
-                <article class="bg-slate-50 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-brand/20 cursor-pointer group" onclick="focusMap(0)">
-                    <div class="p-6 md:p-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-brand text-white px-3 py-1 rounded-full text-xs font-bold">START: 25-27 LUGLIO</span>
-                            <div class="bg-white text-brand font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-md">0</div>
-                        </div>
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">La Via dei Balcani: Avvicinamento a Tappe</h2>
-                        <p class="text-slate-600 mb-4">Partenza sabato 25 luglio. Dividiamo i 2.300 km in 3 giorni per arrivare a Istanbul carichi di energia.</p>
-                        
-                        <div class="space-y-4 mb-6">
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand shrink-0 mt-1">1</div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">25 Luglio: Cameri ➔ Zagabria (~630 km)</p>
-                                    <p class="text-xs text-slate-500">Sosta consigliata: <strong>Camp Zagreb</strong>. Primo giorno di viaggio, relax serale sul lago.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand shrink-0 mt-1">2</div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">26 Luglio: Zagabria ➔ Sofia (~800 km)</p>
-                                    <p class="text-xs text-slate-500">Sosta consigliata: <strong>Sofia Camper Park</strong>. Attraversamento di Serbia e Bulgaria.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand shrink-0 mt-1">3</div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">27 Luglio: Sofia ➔ Istanbul (~550 km)</p>
-                                    <p class="text-xs text-slate-500">Ingresso in Turchia e arrivo a Istanbul in serata. Pronti per esplorare!</p>
-                                </div>
-                            </div>
-                        </div>
+    <div class="max-w-5xl relative z-10 pt-16 pb-28">
 
-                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg text-sm text-amber-900">
-                            <h4 class="font-bold flex items-center"><i class="fa-solid fa-clock mr-2"></i> Strategia Confini</h4>
-                            <p>Partendo di sabato, eviterai il picco di traffico dei lavoratori pendolari europei che solitamente si muovono il lunedì.</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tappa 1 -->
-                <article class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(1)">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Picture/cisterna-basilica.jpg" alt="Istanbul" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-brand text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">28 - 31 LUGLIO</div>
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-slate-800 font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">1</div>
-                    </div>
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">Istanbul: Il Cuore tra Due Continenti</h2>
-                        <p class="text-slate-600 mb-4">Nessun viaggio in Turchia può prescindere da Istanbul. È una metropoli vibrante dove l'Europa incontra l'Asia, divisa dal suggestivo stretto del Bosforo.</p>
-                        
-                        <div class="space-y-3 mb-6 text-sm text-slate-700">
-                            <p><strong><i class="fa-solid fa-star text-amber-500 mr-2"></i>Cosa non perdere:</strong> Basilica di Santa Sofia, Moschea Blu, Palazzo Topkapı, Cisterna Basilica.</p>
-                            <div class="grid grid-cols-2 gap-2 mt-4">
-                                <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-32 object-cover rounded-xl shadow-sm">
-                                <img src="Picture/mongolfiere-cappadocia.jpg" alt="Istanbul View" class="w-full h-32 object-cover rounded-xl shadow-sm">
-                            </div>
-                            <p><strong><i class="fa-solid fa-clock text-slate-400 mr-2"></i>Permanenza consigliata:</strong> 4 giorni.</p>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4">
-                            <h4 class="font-bold text-blue-800 flex items-center"><i class="fa-solid fa-van-shuttle mr-2"></i> Logistica Camper (6m)</h4>
-                            <p class="text-sm text-blue-900 mt-1 mb-2"><strong>Camper Stop:</strong> Yenikapı Caravan RV Park (Kennedy Cd. No:11, Fatih). Un'area sicura sul mare, fuori dalla ZTL del centro.</p>
-                            <p class="text-sm text-blue-900"><strong>Come muoversi:</strong> Prendi il treno <strong>Marmaray</strong> dalla stazione di Yenikapı fino a <strong>Sirkeci</strong> (4 min), poi prosegui a piedi per Sultanahmet. In alternativa, bus <strong>BN1</strong> fino alla fermata Çatladıkapı.</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm border border-slate-200">
-                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-route text-brand mr-2"></i> Tratta 1: Istanbul ➔ Efeso</p>
-                            <div class="flex flex-wrap gap-4 mt-2 text-slate-600">
-                                <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> ~540 km</span>
-                                <span><i class="fa-solid fa-stopwatch mr-1"></i> ~5h 30m</span>
-                                <span><i class="fa-solid fa-road mr-1"></i> Autostrada O-5 (Pedaggio)</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tappa 2 -->
-                <article class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(2)">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Picture/efeso-biblioteca.jpg" alt="Efeso - Biblioteca di Celso" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-brand text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">1 - 2 AGOSTO</div>
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-slate-800 font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">2</div>
-                    </div>
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">La Città Antica di Efeso</h2>
-                        <p class="text-slate-600 mb-4">Situata vicino alla costa egea (nei pressi di Selçuk), Efeso è uno dei siti archeologici meglio conservati del Mediterraneo. Un vero salto nel tempo.</p>
-                        
-                        <div class="space-y-3 mb-6 text-sm text-slate-700">
-                            <p><strong><i class="fa-solid fa-star text-amber-500 mr-2"></i>Cosa non perdere:</strong> Biblioteca di Celso, il Grande Teatro, Tempio di Adriano.</p>
-                            <div class="grid grid-cols-2 gap-2 mt-4">
-                                <img src="Picture/efeso-biblioteca.jpg" alt="Efeso Ruins" class="w-full h-32 object-cover rounded-xl shadow-sm">
-                                <img src="Picture/antalya.webp" alt="Ephesus Detail" class="w-full h-32 object-cover rounded-xl shadow-sm">
-                            </div>
-                            <p><strong><i class="fa-solid fa-clock text-slate-400 mr-2"></i>Permanenza consigliata:</strong> 2 giorni (sito + villaggio di Şirince).</p>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4">
-                            <h4 class="font-bold text-blue-800 flex items-center"><i class="fa-solid fa-van-shuttle mr-2"></i> Logistica Camper (6m)</h4>
-                            <p class="text-sm text-blue-900 mt-1 mb-2"><strong>Campeggio:</strong> Dereli Valley Campsite (Pamucak). Immerso nel verde e vicino alla spiaggia.</p>
-                            <p class="text-sm text-blue-900"><strong>Come muoversi:</strong> Usa i <strong>Dolmuş</strong> (mini-bus) che passano ogni 20-30 min davanti al camping diretti a Selçuk. Chiedi di scendere alla <strong>Lower Gate</strong> di Efeso (circa 10 min).</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm border border-slate-200">
-                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-route text-brand mr-2"></i> Tratta 2: Efeso ➔ Pamukkale</p>
-                            <div class="flex flex-wrap gap-4 mt-2 text-slate-600">
-                                <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> ~190 km</span>
-                                <span><i class="fa-solid fa-stopwatch mr-1"></i> ~2h 45m</span>
-                                <span><i class="fa-solid fa-road mr-1"></i> Statale D320 (Scorrevole)</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tappa 3 -->
-                <article class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(3)">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Picture/pamukkale-travertini.jpg" alt="Pamukkale" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-brand text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">3 AGOSTO</div>
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-slate-800 font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">3</div>
-                    </div>
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">Pamukkale: Il "Castello di Cotone"</h2>
-                        <p class="text-slate-600 mb-4">Terrazze di travertino bianco candido create da sorgenti termali ricche di calcio, che scendono formando piscine naturali azzurre.</p>
-                        
-                        <div class="space-y-3 mb-6 text-sm text-slate-700">
-                            <p><strong><i class="fa-solid fa-star text-amber-500 mr-2"></i>Cosa non perdere:</strong> Rovine di Hierapolis, "Piscina di Cleopatra" per nuotare tra antiche colonne.</p>
-                            <div class="flex gap-4 mt-4">
-                                <img src="Picture/piscine-cleopatra.jpg" alt="Piscine di Cleopatra" class="w-1/2 h-32 object-cover rounded-xl shadow-sm">
-                                <img src="Picture/pamukkale-travertini.jpg" alt="Pamukkale View" class="w-1/2 h-32 object-cover rounded-xl shadow-sm">
-                            </div>
-                            <p><strong><i class="fa-solid fa-clock text-slate-400 mr-2"></i>Permanenza consigliata:</strong> 1 giorno (consigliato l'ingresso nel pomeriggio per il tramonto).</p>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4">
-                            <h4 class="font-bold text-blue-800 flex items-center"><i class="fa-solid fa-van-shuttle mr-2"></i> Logistica Camper (6m)</h4>
-                            <p class="text-sm text-blue-900 mt-1 mb-2"><strong>Campeggio:</strong> Tepe Camping (Kurtluca Mah). Posizione panoramica in cima alla collina.</p>
-                            <p class="text-sm text-blue-900"><strong>Come muoversi:</strong> Il campeggio offre spesso un servizio navetta o puoi usare un taxi per farti lasciare alla <strong>North Gate</strong> di Hierapolis. Da lì scendi a piedi verso il paese attraverso le terrazze.</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm border border-slate-200">
-                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-route text-brand mr-2"></i> Tratta 3: Pamukkale ➔ Fethiye</p>
-                            <div class="flex flex-wrap gap-4 mt-2 text-slate-600">
-                                <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> ~200 km</span>
-                                <span><i class="fa-solid fa-stopwatch mr-1"></i> ~3h 00m</span>
-                                <span><i class="fa-solid fa-road mr-1"></i> Montagna panoramica</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tappa 4 -->
-                <article class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(4)">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Picture/oludeniz-laguna-blu.jpg" alt="Costa Turchese - Ölüdeniz" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-brand text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">4 - 8 AGOSTO</div>
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-slate-800 font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">4</div>
-                    </div>
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">La Costa Turchese</h2>
-                        <p class="text-slate-600 mb-4">La strada statale D400 è un sogno per chi viaggia in van. Paesaggi costieri mozzafiato, mare cristallino e borghi pittoreschi.</p>
-                        
-                        <div class="space-y-3 mb-6 text-sm text-slate-700">
-                            <p><strong><i class="fa-solid fa-map-pin text-rose-500 mr-2"></i>Fethiye e Ölüdeniz:</strong> La "Laguna Blu" e i voli in parapendio.</p>
-                            <p><strong><i class="fa-solid fa-map-pin text-rose-500 mr-2"></i>Kaş e Kaputaş Beach:</strong> Caletta in una gola naturale e cittadina rilassata.</p>
-                            <p><strong><i class="fa-solid fa-map-pin text-rose-500 mr-2"></i>Antalya (Kaleiçi):</strong> Il centro storico, la Porta di Adriano e l'antico porto.</p>
-                            <div class="flex gap-4 mt-4 overflow-x-auto pb-2">
-                                <img src="Picture/kaputas-beach.jpg" alt="Kaputaş Beach" class="w-1/2 min-w-[200px] h-32 object-cover rounded-xl shadow-sm">
-                                <img src="Picture/antalya.webp" alt="Antalya" class="w-1/2 min-w-[200px] h-32 object-cover rounded-xl shadow-sm">
-                                <img src="Picture/oludeniz-laguna-blu.jpg" alt="Kas Harbor" class="w-1/2 min-w-[200px] h-32 object-cover rounded-xl shadow-sm">
-                            </div>
-                            <p><strong><i class="fa-solid fa-clock text-slate-400 mr-2"></i>Permanenza:</strong> 5 giorni complessivi.</p>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4">
-                            <h4 class="font-bold text-blue-800 flex items-center"><i class="fa-solid fa-van-shuttle mr-2"></i> Logistica Sulla Costa</h4>
-                            <p class="text-sm text-blue-900 mt-1 mb-2"><strong>Kaş:</strong> Olympos Mocamp (2km dal centro). Bus ogni 30 min per il centro o 20 min a piedi.</p>
-                            <p class="text-sm text-blue-900 mb-2"><strong>Antalya:</strong> Konyaaltı Camper Stop (ovest spiaggia). Prendi il bus <strong>KL08</strong> per arrivare direttamente a Hadrian's Gate (centro storico).</p>
-                            <p class="text-sm text-blue-900"><strong>Fethiye:</strong> Deep Ocean Camping (Faralya). Da Fethiye centro prendi il dolmuş verso Kabak/Ölüdeniz.</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm border border-slate-200">
-                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-route text-brand mr-2"></i> Tratta 4: Antalya ➔ Cappadocia</p>
-                            <div class="flex flex-wrap gap-4 mt-2 text-slate-600">
-                                <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> ~500 km</span>
-                                <span><i class="fa-solid fa-stopwatch mr-1"></i> ~6h 30m</span>
-                                <span><i class="fa-solid fa-road mr-1"></i> Altopiano anatolico (D300)</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tappa 5 -->
-                <article class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(5)">
-                    <div class="h-64 overflow-hidden relative">
-                        <img src="Picture/goreme-panorama.jpg" alt="Cappadocia - Göreme" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-brand text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">9 - 12 AGOSTO</div>
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-slate-800 font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">5</div>
-                    </div>
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">La Cappadocia: Un Paesaggio da Fiaba</h2>
-                        <p class="text-slate-600 mb-4">Un territorio unico al mondo modellato dall'erosione, famoso per i "camini delle fate", chiese rupestri e le città sotterranee.</p>
-                        
-                        <div class="space-y-3 mb-6 text-sm text-slate-700">
-                            <p><strong><i class="fa-solid fa-star text-amber-500 mr-2"></i>Cosa non perdere:</strong> Museo a cielo aperto di Göreme, città sotterranee di Derinkuyu o Kaymaklı.</p>
-                            <div class="grid grid-cols-2 gap-2 mt-4">
-                                <img src="Picture/derinkuyu-citta-sotterranea.jpg" alt="Città Sotterranea di Derinkuyu" class="w-full h-32 object-cover rounded-xl shadow-sm">
-                                <img src="Picture/mongolfiere-cappadocia.jpg" alt="Balloons" class="w-full h-32 object-cover rounded-xl shadow-sm">
-                            </div>
-                            <p><strong><i class="fa-solid fa-hot-tub-person text-amber-500 mr-2"></i>L'esperienza:</strong> Svegliarsi all'alba per vedere le mongolfiere sorseggiando un tè turco dal van.</p>
-                            <p><strong><i class="fa-solid fa-clock text-slate-400 mr-2"></i>Permanenza:</strong> 4 giorni (margine meteo per le mongolfiere).</p>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg mb-4">
-                            <h4 class="font-bold text-blue-800 flex items-center"><i class="fa-solid fa-van-shuttle mr-2"></i> Logistica Camper (6m)</h4>
-                            <p class="text-sm text-blue-900 mt-1 mb-2"><strong>Campeggio:</strong> Panorama Camping (Göreme). Vista imbattibile sulle mongolfiere all'alba.</p>
-                            <p class="text-sm text-blue-900"><strong>Come muoversi:</strong> Il camping è a soli 10 minuti a piedi dal centro di Göreme. Per le mongolfiere, puoi vederle decollare direttamente dal tuo van o camminare 15 min verso Love Valley.</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-4 rounded-xl text-sm border border-slate-200">
-                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-route text-brand mr-2"></i> Rientro: Cappadocia ➔ Istanbul</p>
-                            <div class="flex flex-wrap gap-4 mt-2 text-slate-600">
-                                <span><i class="fa-solid fa-ruler-horizontal mr-1"></i> ~730 km</span>
-                                <span><i class="fa-solid fa-stopwatch mr-1"></i> ~8h 00m</span>
-                                <span><i class="fa-solid fa-road mr-1"></i> Autostrada via Ankara</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Tappa 6: Rientro Programmato -->
-                <article class="bg-slate-50 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-brand/20 cursor-pointer group" onclick="focusMap(6)">
-                    <div class="p-6 md:p-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-brand text-white px-3 py-1 rounded-full text-xs font-bold">RETURN: 13-15 AGOSTO</span>
-                            <div class="bg-white text-brand font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-md">6</div>
-                        </div>
-                        <h2 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-brand transition-colors">Il Rientro: Sprint Finale</h2>
-                        <p class="text-slate-600 mb-4">Per avere domenica 16 agosto come giorno di riposo, strutturiamo il rientro in 3 giorni con arrivo sabato sera.</p>
-                        
-                        <div class="space-y-4 mb-6">
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand shrink-0 mt-1">1</div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">13 Agosto: Cappadocia ➔ Edirne (~850 km)</p>
-                                    <p class="text-xs text-slate-500">Sosta consigliata: <strong>Edirne Camping</strong>. Dormire vicino al confine per uscire presto il mattino dopo.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand shrink-0 mt-1">2</div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">14 Agosto: Edirne ➔ Zagabria (~1000 km)</p>
-                                    <p class="text-xs text-slate-500">Tappa impegnativa ma necessaria per rientrare in tempo.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand shrink-0 mt-1">3</div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">15 Agosto: Zagabria ➔ Cameri (~630 km)</p>
-                                    <p class="text-xs text-slate-500">Arrivo a Cameri sabato sera. Domenica 16: riposo totale!</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg text-sm text-green-900">
-                            <p class="font-semibold text-slate-800"><i class="fa-solid fa-bed text-brand mr-2"></i> Domenica 16 Agosto: Giornata di riposo pre-riapertura.</p>
-                        </div>
-                    </div>
-                </article>
-
-            </div>
-
-            <!-- Lato Destro: Mappa Fissa -->
-            <div class="lg:w-2/5">
-                <div class="sticky top-6 rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[400px] lg:h-[calc(100vh-3rem)]">
-                    <!-- Overlay Istruzioni Mappa -->
-                    <div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] bg-white/90 backdrop-blur px-4 py-2 rounded-full text-sm font-semibold text-slate-700 shadow flex items-center pointer-events-none">
-                        <i class="fa-solid fa-hand-pointer text-brand mr-2"></i> Clicca sulle tappe a sinistra
-                    </div>
-                    <div id="map" class="w-full h-full z-10"></div>
-                </div>
-            </div>
-            
+        <!-- Live badge -->
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/25 backdrop-blur-sm text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full tracking-widest uppercase mb-7">
+            <span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span>
+            <i class="fa-solid fa-calendar-days mr-1"></i>
+            25 Luglio – 15 Agosto 2026
         </div>
 
-        <!-- Sezione Consigli Extra -->
-        <section class="mt-20">
-            <h3 class="text-3xl font-bold text-slate-800 mb-8 text-center"><i class="fa-solid fa-lightbulb text-amber-400 mr-3"></i>Consigli Extra per il Vanlife</h3>
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Tip 1 -->
-                <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-brand">
-                    <div class="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center text-brand text-xl mb-4">
-                        <i class="fa-solid fa-ticket"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-800 mb-2">Pedaggi (HGS)</h4>
-                    <p class="text-slate-600 text-sm">Necessario per autostrade e ponti (es. Istanbul). È un adesivo con chip. Acquistalo agli uffici postali (PTT) o nelle grandi aree di servizio all'ingresso del paese.</p>
+        <!-- Title -->
+        <h1 class="serif text-[3.6rem] md:text-[5.5rem] lg:text-[7rem] font-bold leading-[0.95] mb-7 tracking-tight">
+            Turchia<br>
+            <span class="font-light italic text-sky-300">Il Grande Tour</span>
+        </h1>
+
+        <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-xl mb-10 font-light">
+            Tre settimane in camper van tra Istanbul, Efeso, Pamukkale, la Costa Turchese e la Cappadocia.
+        </p>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap gap-8 mb-11">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-brand/25 border border-brand/40 flex items-center justify-center">
+                    <i class="fa-solid fa-road text-sky-300 text-sm"></i>
                 </div>
-                <!-- Tip 2 -->
-                <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-green-500">
-                    <div class="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center text-green-500 text-xl mb-4">
-                        <i class="fa-solid fa-campground"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-800 mb-2">Sosta Libera</h4>
-                    <p class="text-slate-600 text-sm">Generalmente ben tollerata e sicura, specialmente fuori dalle metropoli e lungo le spiagge remote. Usa app come <strong>Park4Night</strong> per trovare spot recensiti.</p>
-                </div>
-                <!-- Tip 3 -->
-                <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-amber-500">
-                    <div class="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-500 text-xl mb-4">
-                        <i class="fa-solid fa-gas-pump"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-slate-800 mb-2">Servizi e Carburante</h4>
-                    <p class="text-slate-600 text-sm">Le stazioni (Opet, Shell) sono giganti, moderne e pulite. Spesso offrono <strong>acqua potabile gratuita</strong> e aree lavaggio per dare una rapida sciacquata al van.</p>
+                <div>
+                    <p class="text-3xl font-extrabold counter" data-target="6000">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">km totali</p>
                 </div>
             </div>
-        </section>
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-yellow-400/20 border border-yellow-400/35 flex items-center justify-center">
+                    <i class="fa-solid fa-map-pin text-yellow-300 text-sm"></i>
+                </div>
+                <div>
+                    <p class="text-3xl font-extrabold counter" data-target="6">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">tappe</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-sun text-orange-300 text-sm"></i>
+                </div>
+                <div>
+                    <p class="text-3xl font-extrabold counter" data-target="22">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">giorni</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-rose-400/20 border border-rose-400/30 flex items-center justify-center">
+                    <i class="fa-solid fa-flag text-rose-300 text-sm"></i>
+                </div>
+                <div>
+                    <p class="text-3xl font-extrabold counter" data-target="4">0</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">paesi</p>
+                </div>
+            </div>
+        </div>
 
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
-        <p>© 2026 Vanlife Adventures. Creato per esploratori su ruote.</p>
-    </footer>
-
-    <!-- Lightbox Modal -->
-    <div id="lightbox" class="flex" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="Fullscreen view">
-        <button class="absolute top-6 right-6 text-white text-4xl hover:text-brand transition-colors">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+        <a href="#itinerario" class="inline-flex items-center gap-3 bg-brand hover:bg-brand-dark text-white font-semibold py-3.5 px-8 rounded-full transition-all shadow-xl shadow-brand/40 hover:shadow-brand/60 group">
+            Scopri l'Itinerario
+            <i class="fa-solid fa-arrow-down group-hover:translate-y-1 transition-transform"></i>
+        </a>
     </div>
 
-    <!-- Script per la mappa -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Funzionalità Lightbox
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
+    <!-- Scroll hint -->
+    <div class="scroll-arrow absolute bottom-10 left-1/2 text-white/40 flex flex-col items-center gap-1 text-xs uppercase tracking-widest">
+        <span>scroll</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
 
-        function openLightbox(src) {
-            lightboxImg.src = src;
-            lightbox.style.display = 'flex';
-            setTimeout(() => lightbox.classList.add('active'), 10);
-            document.body.style.overflow = 'hidden'; // Blocca lo scroll della pagina
-        }
+</header>
 
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            setTimeout(() => {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = '';
-            }, 300);
-        }
 
-        // Seleziona tutte le immagini degli articoli e delle gallerie
-        document.querySelectorAll('article img, .flex img, .grid img').forEach(img => {
-            img.classList.add('enlargeable');
-            img.addEventListener('click', (e) => {
-                e.stopPropagation(); // Impedisce il trigger del clic sulla card (mappa)
-                openLightbox(img.src);
-            });
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="container mx-auto px-4 py-16 md:py-20 max-w-7xl" id="itinerario">
+
+    <div class="flex flex-col lg:flex-row gap-10 relative">
+
+        <!-- LEFT: Timeline cards -->
+        <div class="lg:w-3/5 space-y-6">
+
+            <!-- ─── Tappa 0: Avvicinamento ─── -->
+            <article class="reveal bg-gradient-to-br from-slate-50 to-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-brand/20 cursor-pointer group relative" onclick="focusMap(0)">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand to-brand/20 rounded-l-3xl"></div>
+                <div class="p-6 md:p-8 pl-8">
+                    <div class="flex items-center justify-between mb-5">
+                        <span class="bg-gradient-to-r from-brand to-brand-dark text-white text-xs font-bold px-4 py-1.5 rounded-full shadow shadow-brand/30 tracking-wide">
+                            <i class="fa-solid fa-flag-checkered mr-1.5"></i> START · 25–27 LUGLIO
+                        </span>
+                        <div class="w-10 h-10 bg-white text-brand font-bold rounded-full flex items-center justify-center shadow border border-brand/20 text-sm">0</div>
+                    </div>
+                    <h2 class="serif text-3xl font-bold text-slate-800 mb-2 group-hover:text-brand transition-colors">La Via dei Balcani</h2>
+                    <p class="text-slate-500 text-sm mb-5">2.300 km in 3 giorni di avvicinamento strategico da Cameri a Istanbul.</p>
+
+                    <div class="grid grid-cols-3 gap-3 mb-5">
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
+                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">25 Lug</p>
+                            <p class="text-xs text-slate-700 font-semibold">Cameri → Zagabria</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">~630 km</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
+                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">26 Lug</p>
+                            <p class="text-xs text-slate-700 font-semibold">Zagabria → Sofia</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">~800 km</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
+                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">27 Lug</p>
+                            <p class="text-xs text-slate-700 font-semibold">Sofia → Istanbul</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">~550 km</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r-xl text-xs text-amber-900">
+                        <i class="fa-solid fa-clock mr-1.5 text-amber-500"></i>
+                        <strong>Strategia confini:</strong> Partendo di sabato eviti il picco dei pendolari europei del lunedì.
+                    </div>
+                </div>
+            </article>
+
+            <!-- ─── Tappa 1: Istanbul ─── -->
+            <article class="reveal delay-1 bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(1)">
+                <div class="h-72 card-img relative">
+                    <img src="Picture/cisterna-basilica.jpg" alt="Istanbul – Cisterna Basilica" class="w-full h-full object-cover">
+                    <div class="img-overlay"></div>
+                    <div class="absolute bottom-5 left-6 right-16">
+                        <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">28–31 Luglio · 4 giorni</p>
+                        <h2 class="serif text-4xl font-bold text-white leading-tight">Istanbul</h2>
+                        <p class="text-sm text-white/65 mt-0.5">Il cuore tra due continenti</p>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-brand font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-lg text-sm">1</div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-slate-500 text-sm mb-5 leading-relaxed">Metropoli vibrante dove Europa incontra Asia, divisa dal Bosforo. Quattro giorni non bastano mai.</p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">🕌 Santa Sofia</span>
+                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">🕌 Moschea Blu</span>
+                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">🏛 Topkapı</span>
+                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">💧 Cisterna Basilica</span>
+                    </div>
+
+                    <div class="mb-5">
+                        <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-36 object-cover rounded-2xl shadow-sm enlargeable">
+                    </div>
+
+                    <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
+                        <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
+                            <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
+                        </p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Yenikapı Caravan RV Park — sicuro, sul mare, fuori dalla ZTL.</p>
+                        <p class="text-sky-900"><strong>Trasporti:</strong> Treno Marmaray → Sirkeci (4 min), poi a piedi per Sultanahmet.</p>
+                    </div>
+
+                    <div class="route-pill">
+                        <i class="fa-solid fa-route text-brand text-base"></i>
+                        <span class="font-semibold text-slate-700">Istanbul → Efeso</span>
+                        <span class="text-slate-400">~540 km · 5h 30m · Autostrada O-5</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ─── Tappa 2: Efeso ─── -->
+            <article class="reveal delay-2 bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(2)">
+                <div class="h-72 card-img relative">
+                    <img src="Picture/efeso-biblioteca.jpg" alt="Efeso – Biblioteca di Celso" class="w-full h-full object-cover">
+                    <div class="img-overlay"></div>
+                    <div class="absolute bottom-5 left-6 right-16">
+                        <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">1–2 Agosto · 2 giorni</p>
+                        <h2 class="serif text-4xl font-bold text-white leading-tight">Efeso</h2>
+                        <p class="text-sm text-white/65 mt-0.5">La città antica del Mediterraneo</p>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-brand font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-lg text-sm">2</div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-slate-500 text-sm mb-5 leading-relaxed">Uno dei siti archeologici meglio conservati del Mediterraneo — un vero salto nel tempo.</p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="chip bg-amber-50 text-amber-700 border border-amber-200">📚 Biblioteca di Celso</span>
+                        <span class="chip bg-amber-50 text-amber-700 border border-amber-200">🎭 Grande Teatro</span>
+                        <span class="chip bg-amber-50 text-amber-700 border border-amber-200">🏛 Tempio di Adriano</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 mb-5">
+                        <img src="Picture/efeso-biblioteca.jpg" alt="Efeso" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                        <img src="Picture/antalya.webp" alt="Efeso Detail" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                    </div>
+
+                    <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
+                        <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
+                            <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
+                        </p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Dereli Valley Campsite (Pamucak) — verde, vicino alla spiaggia.</p>
+                        <p class="text-sky-900"><strong>Trasporti:</strong> Dolmuş ogni 20-30 min verso Selçuk → scendi alla Lower Gate.</p>
+                    </div>
+
+                    <div class="route-pill">
+                        <i class="fa-solid fa-route text-brand text-base"></i>
+                        <span class="font-semibold text-slate-700">Efeso → Pamukkale</span>
+                        <span class="text-slate-400">~190 km · 2h 45m · D320</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ─── Tappa 3: Pamukkale ─── -->
+            <article class="reveal bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(3)">
+                <div class="h-72 card-img relative">
+                    <img src="Picture/pamukkale-travertini.jpg" alt="Pamukkale Travertini" class="w-full h-full object-cover">
+                    <div class="img-overlay"></div>
+                    <div class="absolute bottom-5 left-6 right-16">
+                        <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">3 Agosto · 1 giorno</p>
+                        <h2 class="serif text-4xl font-bold text-white leading-tight">Pamukkale</h2>
+                        <p class="text-sm text-white/65 mt-0.5">Il "Castello di Cotone"</p>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-brand font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-lg text-sm">3</div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-slate-500 text-sm mb-5 leading-relaxed">Terrazze di travertino bianco candido con piscine termali naturali azzurre — un paesaggio alieno.</p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🏛 Hierapolis</span>
+                        <span class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🏊 Piscina di Cleopatra</span>
+                        <span class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🌅 Tramonto sulle terrazze</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 mb-5">
+                        <img src="Picture/piscine-cleopatra.jpg" alt="Piscine di Cleopatra" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                        <img src="Picture/pamukkale-travertini.jpg" alt="Pamukkale" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                    </div>
+
+                    <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
+                        <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
+                            <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
+                        </p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Tepe Camping (Kurtluca Mah) — posizione panoramica in cima alla collina.</p>
+                        <p class="text-sky-900"><strong>Consiglio:</strong> Entra nel pomeriggio per il tramonto sulle terrazze bianche.</p>
+                    </div>
+
+                    <div class="route-pill">
+                        <i class="fa-solid fa-route text-brand text-base"></i>
+                        <span class="font-semibold text-slate-700">Pamukkale → Fethiye</span>
+                        <span class="text-slate-400">~200 km · 3h · Montagna panoramica</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ─── Tappa 4: Costa Turchese ─── -->
+            <article class="reveal delay-1 bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(4)">
+                <div class="h-72 card-img relative">
+                    <img src="Picture/oludeniz-laguna-blu.jpg" alt="Ölüdeniz Laguna Blu" class="w-full h-full object-cover">
+                    <div class="img-overlay"></div>
+                    <div class="absolute bottom-5 left-6 right-16">
+                        <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">4–8 Agosto · 5 giorni</p>
+                        <h2 class="serif text-4xl font-bold text-white leading-tight">La Costa Turchese</h2>
+                        <p class="text-sm text-white/65 mt-0.5">Fethiye · Kaş · Antalya</p>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-brand font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-lg text-sm">4</div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-slate-500 text-sm mb-5 leading-relaxed">La D400 è una delle strade più belle d'Europa: costa smeraldo, baie nascoste e borghi pittoreschi.</p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="chip bg-teal-50 text-teal-700 border border-teal-200">🦅 Ölüdeniz Laguna Blu</span>
+                        <span class="chip bg-teal-50 text-teal-700 border border-teal-200">🏖 Kaputaş Beach</span>
+                        <span class="chip bg-teal-50 text-teal-700 border border-teal-200">🏛 Antalya Kaleiçi</span>
+                    </div>
+
+                    <div class="flex gap-2 mb-5 overflow-x-auto pb-1">
+                        <img src="Picture/kaputas-beach.jpg" alt="Kaputaş Beach" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
+                        <img src="Picture/antalya.webp" alt="Antalya" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
+                        <img src="Picture/oludeniz-laguna-blu.jpg" alt="Laguna Blu Ölüdeniz" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
+                    </div>
+
+                    <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
+                        <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
+                            <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Sulla Costa
+                        </p>
+                        <p class="text-sky-900 mb-1"><strong>Kaş:</strong> Olympos Mocamp — bus ogni 30 min o 20 min a piedi dal centro.</p>
+                        <p class="text-sky-900 mb-1"><strong>Antalya:</strong> Konyaaltı Camper Stop — bus KL08 diretto a Hadrian's Gate.</p>
+                        <p class="text-sky-900"><strong>Fethiye:</strong> Deep Ocean Camping (Faralya) — dolmuş verso Kabak/Ölüdeniz.</p>
+                    </div>
+
+                    <div class="route-pill">
+                        <i class="fa-solid fa-route text-brand text-base"></i>
+                        <span class="font-semibold text-slate-700">Antalya → Cappadocia</span>
+                        <span class="text-slate-400">~500 km · 6h 30m · Altopiano D300</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ─── Tappa 5: Cappadocia ─── -->
+            <article class="reveal delay-2 bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(5)">
+                <div class="h-72 card-img relative">
+                    <img src="Picture/mongolfiere-cappadocia.jpg" alt="Cappadocia – Mongolfiere all'alba" class="w-full h-full object-cover">
+                    <div class="img-overlay"></div>
+                    <div class="absolute bottom-5 left-6 right-16">
+                        <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">9–12 Agosto · 4 giorni</p>
+                        <h2 class="serif text-4xl font-bold text-white leading-tight">Cappadocia</h2>
+                        <p class="text-sm text-white/65 mt-0.5">Un paesaggio da fiaba</p>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-brand font-bold w-9 h-9 rounded-full flex items-center justify-center shadow-lg text-sm">5</div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-slate-500 text-sm mb-5 leading-relaxed">Camini delle fate, chiese rupestri e città sotterranee. E svegliarsi all'alba con 200 mongolfiere in cielo.</p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="chip bg-rose-50 text-rose-700 border border-rose-200">🌋 Göreme Open Air Museum</span>
+                        <span class="chip bg-rose-50 text-rose-700 border border-rose-200">🕳 Derinkuyu Sotterranea</span>
+                        <span class="chip bg-rose-50 text-rose-700 border border-rose-200">🎈 Mongolfiere all'alba</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 mb-5">
+                        <img src="Picture/derinkuyu-citta-sotterranea.jpg" alt="Derinkuyu" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                        <img src="Picture/goreme-panorama.jpg" alt="Göreme" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                    </div>
+
+                    <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
+                        <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
+                            <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
+                        </p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Panorama Camping (Göreme) — vista imbattibile sulle mongolfiere all'alba.</p>
+                        <p class="text-sky-900"><strong>A piedi:</strong> 10 min dal centro di Göreme. Mongolfiere visibili da Love Valley.</p>
+                    </div>
+
+                    <div class="route-pill">
+                        <i class="fa-solid fa-route text-brand text-base"></i>
+                        <span class="font-semibold text-slate-700">Rientro: Cappadocia → Istanbul</span>
+                        <span class="text-slate-400">~730 km · 8h · Via Ankara</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ─── Tappa 6: Rientro ─── -->
+            <article class="reveal bg-gradient-to-br from-slate-50 to-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-green-200/60 cursor-pointer group relative" onclick="focusMap(6)">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 to-green-500/20 rounded-l-3xl"></div>
+                <div class="p-6 md:p-8 pl-8">
+                    <div class="flex items-center justify-between mb-5">
+                        <span class="bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow shadow-green-500/30 tracking-wide">
+                            <i class="fa-solid fa-house mr-1.5"></i> RETURN · 13–15 AGOSTO
+                        </span>
+                        <div class="w-10 h-10 bg-white text-green-600 font-bold rounded-full flex items-center justify-center shadow border border-green-200 text-sm">6</div>
+                    </div>
+                    <h2 class="serif text-3xl font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">Sprint Finale di Rientro</h2>
+                    <p class="text-slate-500 text-sm mb-5">Domenica 16 agosto come giornata di recupero prima della riapertura.</p>
+
+                    <div class="grid grid-cols-3 gap-3 mb-5">
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
+                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">13 Ago</p>
+                            <p class="text-xs text-slate-700 font-semibold">Cappadocia → Edirne</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">~850 km</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
+                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">14 Ago</p>
+                            <p class="text-xs text-slate-700 font-semibold">Edirne → Zagabria</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">~1.000 km</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
+                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">15 Ago</p>
+                            <p class="text-xs text-slate-700 font-semibold">Zagabria → Cameri</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">~630 km</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-400 p-3 rounded-r-xl text-xs text-green-900">
+                        <i class="fa-solid fa-bed mr-1.5 text-green-500"></i>
+                        <strong>Domenica 16 Agosto:</strong> Riposo totale. Ce lo meriti dopo 6.000 km.
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- RIGHT: Sticky map -->
+        <div class="lg:w-2/5">
+            <div class="sticky top-6 rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[420px] lg:h-[calc(100vh-3rem)] relative">
+                <div class="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-semibold text-slate-700 shadow-lg flex items-center pointer-events-none whitespace-nowrap">
+                    <i class="fa-solid fa-hand-pointer text-brand mr-2"></i> Clicca sulle tappe
+                </div>
+                <div id="map" class="w-full h-full z-10"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════════ TIPS SECTION ═══════════════ -->
+    <section class="mt-24">
+        <div class="text-center mb-12">
+            <div class="divider w-1/2 mx-auto mb-10"></div>
+            <h3 class="serif text-5xl font-bold text-slate-800 mb-3">
+                Consigli per il Vanlife
+            </h3>
+            <p class="text-slate-400 text-sm">Tutto quello che serve prima di partire</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="reveal glass p-7 rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300 border-t-4 border-brand group">
+                <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center text-brand text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-ticket"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-800 mb-2">Pedaggi HGS</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">Obbligatorio per autostrade e ponti di Istanbul. È un adesivo con chip — acquistalo negli uffici PTT o nelle grandi aree di servizio all'ingresso del paese.</p>
+            </div>
+            <div class="reveal delay-1 glass p-7 rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300 border-t-4 border-green-500 group">
+                <div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-500 text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-campground"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-800 mb-2">Sosta Libera</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">Generalmente ben tollerata e sicura, specialmente fuori dalle metropoli e sulle spiagge remote. Usa <strong>Park4Night</strong> per trovare spot recensiti.</p>
+            </div>
+            <div class="reveal delay-2 glass p-7 rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300 border-t-4 border-amber-500 group">
+                <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center text-amber-500 text-2xl mb-5 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-gas-pump"></i>
+                </div>
+                <h4 class="text-xl font-bold text-slate-800 mb-2">Servizi & Carburante</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">Le stazioni Opet e Shell sono giganti e moderne. Spesso offrono <strong>acqua potabile gratuita</strong> e aree lavaggio per il van.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="bg-slate-900 text-slate-500 py-14 text-center mt-16 relative overflow-hidden">
+    <div class="footer-bg absolute inset-0 opacity-[0.06]"></div>
+    <div class="relative z-10">
+        <p class="serif text-3xl text-white/80 mb-2 font-light italic">Vanlife Adventures</p>
+        <p class="text-sm">© 2026 · Creato per esploratori su ruote</p>
+    </div>
+</footer>
+
+<!-- Lightbox -->
+<div id="lightbox" class="flex" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Fullscreen">
+    <button type="button" class="absolute top-6 right-6 text-white text-4xl hover:text-brand transition-colors z-10" onclick="closeLightbox()">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // ── Lightbox ──
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(src) {
+        lightboxImg.src = src;
+        lightbox.style.display = 'flex';
+        setTimeout(() => lightbox.classList.add('active'), 10);
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        setTimeout(() => { lightbox.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    }
+    document.querySelectorAll('.enlargeable').forEach(img => {
+        img.addEventListener('click', e => { e.stopPropagation(); openLightbox(img.src); });
+    });
+
+    // ── Scroll Reveal ──
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
         });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-        // Dati dell'itinerario (Coordinate approssimative per le città)
-        const waypoints = [
-            { name: "Cameri (NO)", coords: [45.5015, 8.6595], id: 0 },
-            { name: "Istanbul", coords: [41.0082, 28.9784], id: 1 },
-            { name: "Efeso (Selçuk)", coords: [37.9411, 27.3415], id: 2 },
-            { name: "Pamukkale", coords: [37.9224, 29.1171], id: 3 },
-            { name: "Costa Turchese (Antalya)", coords: [36.8969, 30.7133], id: 4 },
-            { name: "Cappadocia (Göreme)", coords: [38.6431, 34.8289], id: 5 },
-            { name: "Cameri (Rientro)", coords: [45.5015, 8.6595], id: 6 }
-        ];
+    // ── Animated counters ──
+    const cntObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { animateCount(e.target); cntObs.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter').forEach(el => cntObs.observe(el));
 
-        // Inizializzazione della Mappa
-        const map = L.map('map', {
-            scrollWheelZoom: false 
-        }).setView([42.0, 20.0], 4); // Centro più ampio per coprire Italia -> Turchia
+    function animateCount(el) {
+        const target = parseInt(el.dataset.target);
+        const dur = 1600, step = target / (dur / 16);
+        let cur = 0;
+        const t = setInterval(() => {
+            cur += step;
+            if (cur >= target) { el.textContent = target.toLocaleString('it-IT'); clearInterval(t); }
+            else { el.textContent = Math.floor(cur).toLocaleString('it-IT'); }
+        }, 16);
+    }
 
-        // Aggiunta del layer mappa
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
-        }).addTo(map);
+    // ── Leaflet Map ──
+    const waypoints = [
+        { name: "Cameri (NO)", coords: [45.5015, 8.6595], id: 0 },
+        { name: "Istanbul",    coords: [41.0082, 28.9784], id: 1 },
+        { name: "Efeso",       coords: [37.9411, 27.3415], id: 2 },
+        { name: "Pamukkale",   coords: [37.9224, 29.1171], id: 3 },
+        { name: "Costa Turchese (Antalya)", coords: [36.8969, 30.7133], id: 4 },
+        { name: "Cappadocia (Göreme)",      coords: [38.6431, 34.8289], id: 5 },
+        { name: "Cameri (Rientro)",         coords: [45.5015, 8.6595],  id: 6 }
+    ];
 
-        // Creazione array per la Polyline
-        const latlngs = waypoints.map(wp => wp.coords);
-        
-        // Aggiungi Polyline
-        const routeLine = L.polyline(latlngs, {
-            color: '#0ea5e9', 
-            weight: 4, 
-            opacity: 0.7, 
-            dashArray: '10, 10'
-        }).addTo(map);
+    const map = L.map('map', { scrollWheelZoom: false }).setView([42.0, 20.0], 4);
 
-        // Variabile per tenere traccia dei marker
-        const markers = [];
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OSM &copy; CARTO', subdomains: 'abcd', maxZoom: 20
+    }).addTo(map);
 
-        // Aggiunta dei marker personalizzati
-        waypoints.forEach((wp, index) => {
-            const customIcon = L.divIcon({
-                className: 'custom-div-icon',
-                html: `<div class="marker-pin" id="marker-${index}">${wp.id}</div>`,
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            });
+    const routeLine = L.polyline(waypoints.map(w => w.coords), {
+        color: '#0ea5e9', weight: 4, opacity: 0.85, dashArray: '12, 8'
+    }).addTo(map);
 
-            const marker = L.marker(wp.coords, { icon: customIcon }).addTo(map);
-            marker.bindPopup(`<b>Tappa ${wp.id}:</b> ${wp.name}`);
-            markers.push(marker);
-            
-            marker.on('click', () => focusMap(index));
+    const markers = [];
+    waypoints.forEach((wp, i) => {
+        const icon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div class="marker-pin" id="marker-${i}">${wp.id}</div>`,
+            iconSize: [32, 32], iconAnchor: [16, 16]
         });
+        const m = L.marker(wp.coords, { icon }).addTo(map);
+        m.bindPopup(`<b>Tappa ${wp.id}:</b> ${wp.name}`);
+        markers.push(m);
+        m.on('click', () => focusMap(i));
+    });
 
-        // Funzione interattiva per centrare la mappa
-        function focusMap(index) {
-            const targetCoords = waypoints[index].coords;
-            const zoomLevel = index === 0 || index === 6 ? 6 : 8; 
-            
-            map.flyTo(targetCoords, zoomLevel, {
-                animate: true,
-                duration: 1.5
-            });
+    function focusMap(i) {
+        map.flyTo(waypoints[i].coords, i === 0 || i === 6 ? 6 : 8, { animate: true, duration: 1.5 });
+        document.querySelectorAll('.marker-pin').forEach(el => el.classList.remove('active'));
+        setTimeout(() => { const m = document.getElementById(`marker-${i}`); if (m) m.classList.add('active'); }, 100);
+    }
 
-            document.querySelectorAll('.marker-pin').forEach(el => {
-                el.classList.remove('active');
-            });
-
-            setTimeout(() => {
-                const activeMarker = document.getElementById(`marker-${index}`);
-                if (activeMarker) {
-                    activeMarker.classList.add('active');
-                }
-            }, 100);
-        }
-
-        // Adatta la mappa al primo caricamento
-        map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
-
-    </script>
+    map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
+</script>
 </body>
 </html>
