@@ -225,6 +225,58 @@
         .cultura-card:hover .overlay { background: linear-gradient(to top, rgba(10,18,35,0.85) 0%, rgba(10,18,35,0.2) 60%, transparent 100%); }
         .cultura-card .info { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 16px; }
 
+        /* ══ DARK MODE ══ */
+        html.dark { color-scheme: dark; }
+        html.dark body { background: #0f172a !important; color: #e2e8f0; }
+        html.dark main { background: #0f172a; }
+        html.dark article,
+        html.dark .prep-card { background: #1e293b !important; border-color: #334155 !important; }
+        html.dark .bg-white,
+        html.dark .bg-slate-50 { background: #1e293b !important; }
+        html.dark .bg-gradient-to-br,
+        html.dark .bg-gradient-to-r { background: #1e293b !important; }
+        html.dark .glass { background: rgba(30,41,59,0.97) !important; border-color: #334155 !important; }
+        html.dark .route-pill,
+        html.dark .bpill-blue,
+        html.dark .bpill-amber,
+        html.dark .bpill-purple { background: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800,
+        html.dark .text-slate-700,
+        html.dark .serif { color: #f1f5f9 !important; }
+        html.dark .text-slate-600 { color: #94a3b8 !important; }
+        html.dark .text-slate-500,
+        html.dark .text-slate-400 { color: #64748b !important; }
+        html.dark .border-slate-100,
+        html.dark .border-slate-200 { border-color: #334155 !important; }
+        html.dark .bg-sky-50,
+        html.dark .bg-blue-50 { background: rgba(14,165,233,0.08) !important; border-color: rgba(14,165,233,0.2) !important; }
+        html.dark .bg-amber-50 { background: rgba(245,158,11,0.08) !important; border-color: rgba(245,158,11,0.2) !important; }
+        html.dark .bg-emerald-50,
+        html.dark .bg-green-50 { background: rgba(16,185,129,0.08) !important; border-color: rgba(16,185,129,0.2) !important; }
+        html.dark .bg-cyan-50 { background: rgba(6,182,212,0.08) !important; }
+        html.dark .bg-teal-50 { background: rgba(20,184,166,0.08) !important; }
+        html.dark .bg-rose-50 { background: rgba(244,63,94,0.08) !important; }
+        html.dark .bg-white\/70 { background: rgba(30,41,59,0.8) !important; }
+        html.dark input[type="text"],
+        html.dark input[type="date"],
+        html.dark .note-ta { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+        html.dark .hero-bg::after { background: linear-gradient(transparent, #0f172a) !important; }
+        html.dark footer { background: #020617 !important; }
+        html.dark #van-tracker .t-dot { border-color: #334155 !important; }
+        html.dark .check-item span { color: #94a3b8 !important; }
+
+        /* Dark mode toggle button */
+        #dark-toggle {
+            position: fixed; top: 16px; right: 16px; z-index: 201;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; cursor: pointer; transition: background 0.3s;
+        }
+        #dark-toggle:hover { background: rgba(255,255,255,0.22); }
+        html.dark #dark-toggle { background: rgba(15,23,42,0.8); border-color: #334155; color: #fbbf24; }
+
         /* ── Temp badge ── */
         .temp-badge {
             position: absolute; top: 14px; right: 56px; z-index: 10;
@@ -292,6 +344,11 @@
 <body class="antialiased">
 
 <!-- ═══════════════ HERO ═══════════════ -->
+<!-- Dark mode toggle (fixed) -->
+<button id="dark-toggle" type="button" aria-label="Attiva/disattiva dark mode">
+    <i id="dark-icon" class="fa-solid fa-moon text-sm"></i>
+</button>
+
 <header class="hero-bg text-white min-h-[88vh] flex flex-col justify-center px-6 md:px-14 lg:px-24 relative overflow-hidden">
     <div class="hero-img" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
@@ -826,7 +883,7 @@
 
                     <div class="bg-green-50 border-l-4 border-green-400 p-3 rounded-r-xl text-xs text-green-900">
                         <i class="fa-solid fa-bed mr-1.5 text-green-500"></i>
-                        <strong>Domenica 16 Agosto:</strong> Riposo totale. Ce lo meriti dopo 6.000 km.
+                        <strong>Domenica 16 Agosto:</strong> Riposo totale. Te lo sei guadagnato — <span id="total-km-label">~6.000 km</span> di avventura!
                     </div>
                 </div>
             </article>
@@ -1498,6 +1555,9 @@
 
             const opts = {day:'numeric', month:'long'};
             fb.innerHTML = `✅ <strong>${cityName}</strong> · ~${distLj.toLocaleString('it-IT')} km fino a Ljubljana · Arrivo a Istanbul: <strong>${istDate.toLocaleDateString('it-IT', opts)}</strong>`;
+            // Update total km label in tappa 6 card
+            const kmLabel = document.getElementById('total-km-label');
+            if (kmLabel) kmLabel.textContent = `~${totalKm.toLocaleString('it-IT')} km`;
 
         } catch(e) {
             fb.textContent = '❌ Errore di rete. Controlla la connessione e riprova.';
@@ -1510,14 +1570,94 @@
 
     initTappeExtras();
 
-    // ── Visitor counter (CountAPI — auto-create, free, no signup) ──
-    fetch('https://api.countapi.xyz/hit/lelus78.itinerario-turchia/visits')
-        .then(r => r.json())
-        .then(d => {
+    // ── Dark mode toggle ──
+    const html = document.documentElement;
+    function applyDark(on) {
+        html.classList.toggle('dark', on);
+        localStorage.setItem('darkMode', on ? '1' : '0');
+        const icon = document.getElementById('dark-icon');
+        if (icon) { icon.className = on ? 'fa-solid fa-sun text-sm' : 'fa-solid fa-moon text-sm'; }
+    }
+    const savedDark = localStorage.getItem('darkMode');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyDark(savedDark !== null ? savedDark === '1' : prefersDark);
+    document.getElementById('dark-toggle')?.addEventListener('click', () => applyDark(!html.classList.contains('dark')));
+
+    // ── Date cascade: update all tappa dates when departure date changes ──
+    const TAPPA_SCHEDULE = {
+        0: { offset:0,  duration:3, label:'3 giorni di viaggio' },
+        1: { offset:3,  duration:4, label:'4 giorni' },
+        2: { offset:7,  duration:2, label:'2 giorni' },
+        3: { offset:9,  duration:1, label:'1 giorno' },
+        4: { offset:10, duration:5, label:'5 giorni' },
+        5: { offset:15, duration:4, label:'4 giorni' },
+        6: { offset:19, duration:3, label:'3 giorni di rientro' },
+    };
+    const MONTHS_IT = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+
+    function formatRange(start, end) {
+        if (start.getMonth() === end.getMonth()) {
+            return `${start.getDate()}–${end.getDate()} ${MONTHS_IT[start.getMonth()]}`;
+        }
+        return `${start.getDate()} ${MONTHS_IT[start.getMonth()].slice(0,3)} – ${end.getDate()} ${MONTHS_IT[end.getMonth()].slice(0,3)}`;
+    }
+
+    function updateDates(depDateStr) {
+        const dep = new Date(depDateStr + 'T00:00:00');
+        document.querySelectorAll('article[onclick]').forEach(article => {
+            const m = article.getAttribute('onclick').match(/focusMap\((\d+)\)/);
+            if (!m) return;
+            const idx = parseInt(m[1]);
+            const sched = TAPPA_SCHEDULE[idx];
+            if (!sched) return;
+
+            const start = new Date(dep); start.setDate(dep.getDate() + sched.offset);
+            const end   = new Date(dep); end.setDate(dep.getDate() + sched.offset + sched.duration - 1);
+
+            const label = (sched.duration === 1
+                ? `${start.getDate()} ${MONTHS_IT[start.getMonth()]}`
+                : formatRange(start, end)
+            ) + ' · ' + sched.label;
+
+            // Update date overlay text (tappe 1-5 with card-img)
+            const overlay = article.querySelector('.card-img .absolute p:first-child');
+            if (overlay) overlay.textContent = label.toUpperCase();
+
+            // Update tappa 0/6 date badge (span inside first div.flex)
+            const badge = article.querySelector('[class*="rounded-full"][class*="text-white"][class*="font-bold"]:not([class*="w-9"])');
+            if (badge) badge.textContent = label.toUpperCase();
+        });
+
+        // Update total km label
+        const kmLabel = document.getElementById('total-km-label');
+        if (kmLabel && !document.getElementById('dep-city')?.value) {
+            const totalDays = dep; // keep label default if no city set
+        }
+    }
+
+    // Init dates with default departure
+    const depDateInput = document.getElementById('dep-date');
+    if (depDateInput) {
+        updateDates(depDateInput.value);
+        depDateInput.addEventListener('change', () => {
+            updateTemperatures();
+            updateDates(depDateInput.value);
+        });
+    }
+
+    // ── Visitor counter — hits.sh (Cloudflare, zero-config) ──
+    // Image load triggers count; fetch SVG text to extract number
+    const hitImg = new Image();
+    hitImg.src = 'https://hits.sh/lelus78.github.io/itinerario-turchia.svg';
+    fetch('https://hits.sh/lelus78.github.io/itinerario-turchia.svg')
+        .then(r => r.text())
+        .then(svg => {
+            const match = svg.match(/>(\d[\d,.]*)</g);
+            const numStr = match ? match[match.length - 1].replace(/[><]/g, '') : null;
             const el = document.getElementById('hit-count');
-            if (el && d.value) {
-                el.innerHTML = d.value.toLocaleString('it-IT');
-            }
+            if (el && numStr && /^\d/.test(numStr)) {
+                el.innerHTML = parseInt(numStr.replace(/\D/g,'')).toLocaleString('it-IT');
+            } else if (el) el.innerHTML = '<span class="opacity-40">—</span>';
         })
         .catch(() => {
             const el = document.getElementById('hit-count');
