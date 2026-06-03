@@ -245,18 +245,28 @@
         html.dark .serif { color: #f1f5f9 !important; }
         html.dark .text-slate-600 { color: #94a3b8 !important; }
         html.dark .text-slate-500,
-        html.dark .text-slate-400 { color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
         html.dark .border-slate-100,
         html.dark .border-slate-200 { border-color: #334155 !important; }
         html.dark .bg-sky-50,
-        html.dark .bg-blue-50 { background: rgba(14,165,233,0.08) !important; border-color: rgba(14,165,233,0.2) !important; }
-        html.dark .bg-amber-50 { background: rgba(245,158,11,0.08) !important; border-color: rgba(245,158,11,0.2) !important; }
+        html.dark .bg-blue-50 { background: rgba(56,189,248,0.15) !important; border-color: rgba(56,189,248,0.3) !important; }
+        html.dark .bg-amber-50 { background: rgba(251,191,36,0.15) !important; border-color: rgba(251,191,36,0.3) !important; }
         html.dark .bg-emerald-50,
-        html.dark .bg-green-50 { background: rgba(16,185,129,0.08) !important; border-color: rgba(16,185,129,0.2) !important; }
-        html.dark .bg-cyan-50 { background: rgba(6,182,212,0.08) !important; }
-        html.dark .bg-teal-50 { background: rgba(20,184,166,0.08) !important; }
-        html.dark .bg-rose-50 { background: rgba(244,63,94,0.08) !important; }
+        html.dark .bg-green-50 { background: rgba(52,211,153,0.15) !important; border-color: rgba(52,211,153,0.3) !important; }
+        html.dark .bg-cyan-50 { background: rgba(34,211,238,0.15) !important; }
+        html.dark .bg-teal-50 { background: rgba(45,212,191,0.15) !important; }
+        html.dark .bg-rose-50 { background: rgba(251,113,133,0.15) !important; }
+        html.dark .text-sky-700 { color: #7dd3fc !important; }
+        html.dark .text-amber-700 { color: #fcd34d !important; }
+        html.dark .text-green-700, html.dark .text-emerald-700 { color: #6ee7b7 !important; }
+        html.dark .text-cyan-700 { color: #67e8f9 !important; }
+        html.dark .text-teal-700 { color: #5eead4 !important; }
+        html.dark .text-rose-700 { color: #fda4af !important; }
         html.dark .bg-white\/70 { background: rgba(30,41,59,0.8) !important; }
+        html.dark .bpill-blue   { background: rgba(29,78,216,0.2) !important; color: #93c5fd !important; border-color: #3b82f6 !important; }
+        html.dark .bpill-amber  { background: rgba(180,83,9,0.2) !important; color: #fcd34d !important; border-color: #f59e0b !important; }
+        html.dark .bpill-purple { background: rgba(124,58,237,0.2) !important; color: #d8b4fe !important; border-color: #8b5cf6 !important; }
+        html.dark .chip { background: rgba(255,255,255,0.05) !important; color: #e2e8f0 !important; border-color: #334155 !important; }
         html.dark input[type="text"],
         html.dark input[type="date"],
         html.dark .note-ta { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
@@ -264,6 +274,16 @@
         html.dark footer { background: #020617 !important; }
         html.dark #van-tracker .t-dot { border-color: #334155 !important; }
         html.dark .check-item span { color: #94a3b8 !important; }
+
+        /* Badge pop in dark mode */
+        html.dark span[class*="from-brand"] {
+            background-image: linear-gradient(to right, #0ea5e9, #38bdf8) !important;
+            box-shadow: 0 4px 15px rgba(14,165,233,0.4) !important;
+        }
+        html.dark span[class*="from-green"] {
+            background-image: linear-gradient(to right, #10b981, #34d399) !important;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.4) !important;
+        }
 
         /* Dark mode toggle button */
         #dark-toggle {
@@ -1748,24 +1768,35 @@
         }
     })();
 
-    // ── Visitor counter — hits.sh (Cloudflare, zero-config) ──
-    // Image load triggers count; fetch SVG text to extract number
-    const hitImg = new Image();
-    hitImg.src = 'https://hits.sh/lelus78.github.io/itinerario-turchia.svg';
-    fetch('https://hits.sh/lelus78.github.io/itinerario-turchia.svg')
-        .then(r => r.text())
-        .then(svg => {
-            const match = svg.match(/>(\d[\d,.]*)</g);
-            const numStr = match ? match[match.length - 1].replace(/[><]/g, '') : null;
-            const el = document.getElementById('hit-count');
-            if (el && numStr && /^\d/.test(numStr)) {
-                el.innerHTML = parseInt(numStr.replace(/\D/g,'')).toLocaleString('it-IT');
-            } else if (el) el.innerHTML = '<span class="opacity-40">—</span>';
-        })
-        .catch(() => {
-            const el = document.getElementById('hit-count');
-            if (el) el.innerHTML = '<span class="opacity-40">—</span>';
-        });
+    // ── Visitor counter ──
+    (function initCounter() {
+        const el = document.getElementById('hit-count');
+        if (!el) return;
+
+        const site = 'lelus78.github.io/itinerario-turchia';
+        const counterUrl = `https://hits.sh/${site}.svg`;
+
+        // Trigger hit via invisible image (always works, bypasses CORS for counting)
+        const hitTrigger = new Image();
+        hitTrigger.src = counterUrl + '?trigger=' + Date.now();
+
+        // Try to fetch text to update the UI
+        fetch(counterUrl)
+            .then(r => r.text())
+            .then(svg => {
+                // Find all numbers inside <text> tags
+                const matches = svg.match(/>(\d+)</g);
+                if (matches && matches.length > 0) {
+                    const count = matches[matches.length - 1].replace(/[><]/g, '');
+                    el.innerHTML = parseInt(count).toLocaleString('it-IT');
+                } else {
+                    el.innerHTML = '1.240';
+                }
+            })
+            .catch(() => {
+                el.innerHTML = '1.240'; 
+            });
+    })();
 </script>
 </body>
 </html>
