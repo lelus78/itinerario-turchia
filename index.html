@@ -126,6 +126,105 @@
         /* Footer bg image */
         .footer-bg { background: url('Picture/hot-air-balloons-before-launch-in-Goreme-national-park-Cappadocia-Turkey.jpg') center/cover; }
 
+        /* ── Van Journey Tracker ── */
+        #van-tracker {
+            display: none;
+            position: fixed;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 200;
+            width: 90px;
+            height: 440px;
+        }
+        @media (min-width: 1500px) { #van-tracker { display: block; } }
+
+        #t-road {
+            position: absolute;
+            left: 8px;
+            top: 0; bottom: 0;
+            width: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        #t-fill {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 0%;
+            background: linear-gradient(to bottom, #0ea5e9, #10b981);
+            transition: height 0.7s ease;
+        }
+        #t-van {
+            position: absolute;
+            left: -10px;
+            top: -10px;
+            transition: top 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            filter: drop-shadow(0 2px 6px rgba(14,165,233,0.5));
+        }
+        .t-stop {
+            position: absolute;
+            left: 0;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .t-dot {
+            width: 14px; height: 14px; flex-shrink: 0;
+            border-radius: 50%;
+            background: #e2e8f0;
+            border: 2.5px solid #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+            transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
+        }
+        .t-stop.active .t-dot {
+            background: #0ea5e9;
+            transform: scale(1.45);
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.25);
+        }
+        .t-stop.done .t-dot { background: #10b981; }
+        .t-label {
+            font-size: 8.5px; font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            white-space: nowrap;
+            transition: color 0.4s;
+        }
+        .t-stop.active .t-label { color: #0ea5e9; }
+        .t-stop.done .t-label { color: #10b981; }
+        /* Stop positions via nth-child (avoids inline styles) */
+        .t-stop:nth-child(3) { top: 0%; }
+        .t-stop:nth-child(4) { top: 16.67%; }
+        .t-stop:nth-child(5) { top: 33.33%; }
+        .t-stop:nth-child(6) { top: 50%; }
+        .t-stop:nth-child(7) { top: 66.67%; }
+        .t-stop:nth-child(8) { top: 83.33%; }
+        .t-stop:nth-child(9) { top: 100%; }
+
+        /* ── Sapori & Cultura section ── */
+        .cultura-card {
+            position: relative; overflow: hidden; border-radius: 1.25rem;
+            cursor: pointer;
+        }
+        .cultura-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+            will-change: transform; transform: translateZ(0);
+        }
+        .cultura-card:hover img { transform: scale3d(1.06,1.06,1); }
+        .cultura-card .overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,18,35,0.75) 0%, rgba(10,18,35,0.1) 55%, transparent 100%);
+            transition: background 0.4s;
+        }
+        .cultura-card:hover .overlay { background: linear-gradient(to top, rgba(10,18,35,0.85) 0%, rgba(10,18,35,0.2) 60%, transparent 100%); }
+        .cultura-card .info { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 16px; }
+
         /* Route pill */
         .route-pill {
             display: flex; align-items: center; gap: 10px;
@@ -299,9 +398,10 @@
                         <span class="chip bg-sky-50 text-sky-700 border border-sky-200">💧 Cisterna Basilica</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2 mb-5">
-                        <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
-                        <img src="Picture/istanbul-bluemosque.jpg" alt="Moschea Blu – Sultan Ahmed" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                    <div class="grid grid-cols-3 gap-2 mb-5">
+                        <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
+                        <img src="Picture/istanbul-bluemosque.jpg" alt="Moschea Blu" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
+                        <img src="Picture/Bosphorus Bridge.jpg" alt="Bosforo al tramonto" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
                     </div>
 
                     <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
@@ -341,9 +441,10 @@
                         <span class="chip bg-amber-50 text-amber-700 border border-amber-200">🏛 Tempio di Adriano</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2 mb-5">
-                        <img src="Picture/efeso-biblioteca.jpg" alt="Efeso" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
-                        <img src="Picture/antalya.webp" alt="Efeso Detail" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                    <div class="grid grid-cols-3 gap-2 mb-5">
+                        <img src="Picture/efeso-biblioteca.jpg" alt="Biblioteca di Celso" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
+                        <img src="Picture/11.efeso-tempio-di-adriano.jpg" alt="Tempio di Adriano" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
+                        <img src="Picture/Via dei Cureti.jpg" alt="Via dei Cureti" class="w-full h-24 object-cover rounded-xl shadow-sm enlargeable">
                     </div>
 
                     <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
@@ -579,6 +680,128 @@
 
 </main>
 
+<!-- ═══════════════ SAPORI & CULTURA ═══════════════ -->
+<section class="mt-24 container mx-auto px-4 max-w-7xl">
+    <div class="text-center mb-12">
+        <div class="divider w-1/2 mx-auto mb-10"></div>
+        <h3 class="serif text-5xl font-bold text-slate-800 mb-3">Sapori & Cultura</h3>
+        <p class="text-slate-400 text-sm">Quello che non devi assolutamente perdere</p>
+    </div>
+
+    <!-- Istanbul highlights -->
+    <h4 class="serif text-2xl font-bold text-slate-700 mb-5 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-xl bg-brand/10 flex items-center justify-center text-brand text-sm"><i class="fa-solid fa-city"></i></span>
+        Da non perdere a Istanbul
+    </h4>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+
+        <div class="reveal cultura-card h-52 shadow-md">
+            <img src="Picture/gran-bazar-istanbul.jpg" alt="Gran Bazaar" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <p class="text-white text-xs font-bold uppercase tracking-widest mb-0.5 opacity-70">Shopping</p>
+                <h5 class="text-white font-bold serif text-xl leading-tight">Gran Bazaar</h5>
+                <p class="text-white/70 text-xs mt-1">4.000 negozi, il più grande del mondo</p>
+            </div>
+        </div>
+
+        <div class="reveal delay-1 cultura-card h-52 shadow-md">
+            <img src="Picture/bazar-delle-spezie.jpg" alt="Bazar delle Spezie" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <p class="text-white text-xs font-bold uppercase tracking-widest mb-0.5 opacity-70">Mercato</p>
+                <h5 class="text-white font-bold serif text-xl leading-tight">Bazar delle Spezie</h5>
+                <p class="text-white/70 text-xs mt-1">Colori e profumi di Mısır Çarşısı</p>
+            </div>
+        </div>
+
+        <div class="reveal delay-2 cultura-card h-52 shadow-md">
+            <img src="Picture/torre-di-galata-istanbul.jpg" alt="Torre di Galata" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <p class="text-white text-xs font-bold uppercase tracking-widest mb-0.5 opacity-70">Panorama</p>
+                <h5 class="text-white font-bold serif text-xl leading-tight">Torre di Galata</h5>
+                <p class="text-white/70 text-xs mt-1">Vista 360° su Istanbul e il Bosforo</p>
+            </div>
+        </div>
+
+        <div class="reveal cultura-card h-52 shadow-md">
+            <img src="Picture/Bosphorus Bridge.jpg" alt="Bosforo" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <p class="text-white text-xs font-bold uppercase tracking-widest mb-0.5 opacity-70">Icona</p>
+                <h5 class="text-white font-bold serif text-xl leading-tight">Bosforo al tramonto</h5>
+                <p class="text-white/70 text-xs mt-1">Moschea Ortaköy + Ponte del Bosforo</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cucina turca -->
+    <h4 class="serif text-2xl font-bold text-slate-700 mb-5 flex items-center gap-2">
+        <span class="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-sm"><i class="fa-solid fa-utensils"></i></span>
+        Cucina Turca — da assaggiare
+    </h4>
+    <div class="grid sm:grid-cols-3 gap-4">
+
+        <div class="reveal cultura-card h-60 shadow-md">
+            <img src="Picture/cosa-mangiare-a-istanbul.jpg" alt="Cucina turca" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <h5 class="text-white font-bold serif text-xl leading-tight">Meze &amp; Kebab</h5>
+                <p class="text-white/70 text-xs mt-1">Antipasti in vassoio di rame, kebab, köfte, pide. Budget: 8-15 € a persona.</p>
+            </div>
+        </div>
+
+        <div class="reveal delay-1 cultura-card h-60 shadow-md">
+            <img src="Picture/te-turco.jpg" alt="Tè turco" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <h5 class="text-white font-bold serif text-xl leading-tight">Çay — il Tè Turco</h5>
+                <p class="text-white/70 text-xs mt-1">Offerto ovunque e gratis. Forte e nero nel caratteristico bicchiere a tulipano. Senza latte.</p>
+            </div>
+        </div>
+
+        <div class="reveal delay-2 cultura-card h-60 shadow-md">
+            <img src="Picture/caffe-turco.jpg" alt="Caffè turco" class="enlargeable">
+            <div class="overlay"></div>
+            <div class="info">
+                <h5 class="text-white font-bold serif text-xl leading-tight">Türk Kahvesi</h5>
+                <p class="text-white/70 text-xs mt-1">Denso e non filtrato, cotto nel cezve. Servito con acqua e un dolcino. Aspetta che la posa si depositi!</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── Van Journey Tracker (visible on very wide screens) ── -->
+<nav id="van-tracker" aria-label="Progresso del viaggio">
+    <div id="t-road">
+        <div id="t-fill"></div>
+    </div>
+    <div id="t-van">
+        <svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="6" width="33" height="12" rx="2.5" fill="#0ea5e9"/>
+            <path d="M24 6L29 1H35V6H24Z" fill="#0284c7"/>
+            <rect x="3" y="8" width="8" height="5" rx="1.5" fill="#bae6fd" opacity="0.9"/>
+            <rect x="13" y="8" width="6" height="5" rx="1.5" fill="#bae6fd" opacity="0.9"/>
+            <rect x="27" y="2" width="7" height="4" rx="1" fill="#bae6fd" opacity="0.9"/>
+            <line x1="22" y1="7" x2="22" y2="17" stroke="#0284c7" stroke-width="0.8"/>
+            <circle cx="9" cy="18" r="3.2" fill="#1e293b"/>
+            <circle cx="9" cy="18" r="1.4" fill="#64748b"/>
+            <circle cx="27" cy="18" r="3.2" fill="#1e293b"/>
+            <circle cx="27" cy="18" r="1.4" fill="#64748b"/>
+        </svg>
+    </div>
+    <!-- 7 tappe: 0-6 -->
+    <div class="t-stop active" data-i="0"><div class="t-dot"></div><span class="t-label">Partenza</span></div>
+    <div class="t-stop" data-i="1"><div class="t-dot"></div><span class="t-label">Istanbul</span></div>
+    <div class="t-stop" data-i="2"><div class="t-dot"></div><span class="t-label">Efeso</span></div>
+    <div class="t-stop" data-i="3"><div class="t-dot"></div><span class="t-label">Pamukkale</span></div>
+    <div class="t-stop" data-i="4"><div class="t-dot"></div><span class="t-label">Costa</span></div>
+    <div class="t-stop" data-i="5"><div class="t-dot"></div><span class="t-label">Cappadocia</span></div>
+    <div class="t-stop" data-i="6"><div class="t-dot"></div><span class="t-label">Rientro</span></div>
+</nav>
+
 <!-- ═══════════════ FOOTER ═══════════════ -->
 <footer class="bg-slate-900 text-slate-500 py-14 text-center mt-16 relative overflow-hidden">
     <div class="footer-bg absolute inset-0 opacity-[0.06]"></div>
@@ -682,6 +905,45 @@
     }
 
     map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
+
+    // ── Van Journey Tracker ──
+    const tStops = document.querySelectorAll('.t-stop');
+    const tVan   = document.getElementById('t-van');
+    const tFill  = document.getElementById('t-fill');
+    const tTracker = document.getElementById('van-tracker');
+    const itineraryArticles = document.querySelectorAll('#itinerario article[onclick]');
+
+    function setTrackerStop(idx) {
+        if (!tVan || !tTracker) return;
+        tStops.forEach((s, i) => {
+            s.classList.remove('active', 'done');
+            if (i === idx) s.classList.add('active');
+            else if (i < idx) s.classList.add('done');
+        });
+        // Van position: evenly distributed 0..100% of tracker height
+        const pct = idx / 6;
+        const trackH = tTracker.offsetHeight;
+        tVan.style.top = (pct * trackH - 10) + 'px';
+        if (tFill) tFill.style.height = (pct * 100) + '%';
+    }
+
+    // Scroll: find which article's top has passed 55% of viewport
+    window.addEventListener('scroll', () => {
+        let active = 0;
+        itineraryArticles.forEach((el, i) => {
+            if (el.getBoundingClientRect().top < window.innerHeight * 0.55) active = i;
+        });
+        setTrackerStop(active);
+    }, { passive: true });
+
+    // Click on a stop scrolls to the article
+    tStops.forEach((stop, i) => {
+        stop.addEventListener('click', () => {
+            itineraryArticles[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    });
+
+    setTrackerStop(0);
 </script>
 </body>
 </html>
