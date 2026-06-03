@@ -25,10 +25,13 @@
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
 
-        /* Hero */
+        /* Hero — fixed attachment only on desktop (iOS Safari doesn't support it) */
         .hero-bg {
             background: linear-gradient(150deg, rgba(10,18,35,0.82) 0%, rgba(2,110,180,0.35) 55%, rgba(10,18,35,0.88) 100%),
-                        url('Picture/mongolfiere-cappadocia.jpg') center 30% / cover fixed;
+                        url('Picture/mongolfiere-cappadocia.jpg') center 30% / cover scroll;
+        }
+        @media (min-width: 1024px) {
+            .hero-bg { background-attachment: fixed, fixed; }
         }
         .hero-bg::after {
             content: '';
@@ -144,7 +147,7 @@
         </div>
 
         <!-- Title -->
-        <h1 class="serif text-[3.6rem] md:text-[5.5rem] lg:text-[7rem] font-bold leading-[0.95] mb-7 tracking-tight">
+        <h1 class="serif text-4xl sm:text-5xl md:text-[5.5rem] lg:text-[7rem] font-bold leading-[0.95] mb-7 tracking-tight">
             Turchia<br>
             <span class="font-light italic text-sky-300">Il Grande Tour</span>
         </h1>
@@ -229,7 +232,7 @@
                     <h2 class="serif text-3xl font-bold text-slate-800 mb-2 group-hover:text-brand transition-colors">La Via dei Balcani</h2>
                     <p class="text-slate-500 text-sm mb-5">2.300 km in 3 giorni di avvicinamento strategico da Cameri a Istanbul.</p>
 
-                    <div class="grid grid-cols-3 gap-3 mb-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
                             <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">25 Lug</p>
                             <p class="text-xs text-slate-700 font-semibold">Cameri → Zagabria</p>
@@ -257,7 +260,7 @@
             <!-- ─── Tappa 1: Istanbul ─── -->
             <article class="reveal delay-1 bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 cursor-pointer group" onclick="focusMap(1)">
                 <div class="h-72 card-img relative">
-                    <img src="Picture/cisterna-basilica.jpg" alt="Istanbul – Cisterna Basilica" class="w-full h-full object-cover">
+                    <img src="Picture/istanbul-hagiasophia.jpg" alt="Istanbul – Hagia Sophia" class="w-full h-full object-cover">
                     <div class="img-overlay"></div>
                     <div class="absolute bottom-5 left-6 right-16">
                         <p class="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">28–31 Luglio · 4 giorni</p>
@@ -276,8 +279,9 @@
                         <span class="chip bg-sky-50 text-sky-700 border border-sky-200">💧 Cisterna Basilica</span>
                     </div>
 
-                    <div class="mb-5">
-                        <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-36 object-cover rounded-2xl shadow-sm enlargeable">
+                    <div class="grid grid-cols-2 gap-2 mb-5">
+                        <img src="Picture/cisterna-basilica.jpg" alt="Cisterna Basilica" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
+                        <img src="Picture/istanbul-bluemosque.jpg" alt="Moschea Blu – Sultan Ahmed" class="w-full h-28 object-cover rounded-2xl shadow-sm enlargeable">
                     </div>
 
                     <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
@@ -404,7 +408,7 @@
                     <div class="flex gap-2 mb-5 overflow-x-auto pb-1">
                         <img src="Picture/kaputas-beach.jpg" alt="Kaputaş Beach" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
                         <img src="Picture/antalya.webp" alt="Antalya" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
-                        <img src="Picture/oludeniz-laguna-blu.jpg" alt="Laguna Blu Ölüdeniz" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
+                        <img src="Picture/kas-harbor-town.jpg" alt="Kaş – cittadina colorata" class="w-1/3 min-w-[110px] h-28 object-cover rounded-2xl shadow-sm enlargeable flex-shrink-0">
                     </div>
 
                     <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-4 text-xs">
@@ -479,7 +483,7 @@
                     <h2 class="serif text-3xl font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">Sprint Finale di Rientro</h2>
                     <p class="text-slate-500 text-sm mb-5">Domenica 16 agosto come giornata di recupero prima della riapertura.</p>
 
-                    <div class="grid grid-cols-3 gap-3 mb-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
                             <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">13 Ago</p>
                             <p class="text-xs text-slate-700 font-semibold">Cappadocia → Edirne</p>
