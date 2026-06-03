@@ -612,17 +612,17 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
-                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">25 Lug</p>
+                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1" id="t0-d1">25 Lug</p>
                             <p class="text-xs text-slate-700 font-semibold">Cameri → Zagabria</p>
                             <p class="text-[10px] text-slate-400 mt-0.5">~630 km</p>
                         </div>
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
-                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">26 Lug</p>
+                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1" id="t0-d2">26 Lug</p>
                             <p class="text-xs text-slate-700 font-semibold">Zagabria → Sofia</p>
                             <p class="text-[10px] text-slate-400 mt-0.5">~800 km</p>
                         </div>
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
-                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1">27 Lug</p>
+                            <p class="text-[10px] font-bold text-brand uppercase tracking-wide mb-1" id="t0-d3">27 Lug</p>
                             <p class="text-xs text-slate-700 font-semibold">Sofia → Istanbul</p>
                             <p class="text-[10px] text-slate-400 mt-0.5">~550 km</p>
                         </div>
@@ -865,17 +865,17 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
-                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">13 Ago</p>
+                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1" id="t6-d1">13 Ago</p>
                             <p class="text-xs text-slate-700 font-semibold">Cappadocia → Edirne</p>
                             <p class="text-[10px] text-slate-400 mt-0.5">~850 km</p>
                         </div>
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
-                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">14 Ago</p>
+                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1" id="t6-d2">14 Ago</p>
                             <p class="text-xs text-slate-700 font-semibold">Edirne → Zagabria</p>
                             <p class="text-[10px] text-slate-400 mt-0.5">~1.000 km</p>
                         </div>
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
-                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1">15 Ago</p>
+                            <p class="text-[10px] font-bold text-green-600 uppercase tracking-wide mb-1" id="t6-d3">15 Ago</p>
                             <p class="text-xs text-slate-700 font-semibold">Zagabria → Cameri</p>
                             <p class="text-[10px] text-slate-400 mt-0.5">~630 km</p>
                         </div>
@@ -883,7 +883,7 @@
 
                     <div class="bg-green-50 border-l-4 border-green-400 p-3 rounded-r-xl text-xs text-green-900">
                         <i class="fa-solid fa-bed mr-1.5 text-green-500"></i>
-                        <strong>Domenica 16 Agosto:</strong> Riposo totale. Te lo sei guadagnato — <span id="total-km-label">~6.000 km</span> di avventura!
+                        <span id="final-rest-day"><strong>Domenica 16 Agosto:</strong> Riposo totale.</span> Te lo sei guadagnato — <span id="total-km-label">~6.000 km</span> di avventura!
                     </div>
                 </div>
             </article>
@@ -1623,15 +1623,45 @@
             const overlay = article.querySelector('.card-img .absolute p:first-child');
             if (overlay) overlay.textContent = label.toUpperCase();
 
-            // Update tappa 0/6 date badge (span inside first div.flex)
+            // Update tappa 0/6 date badge
             const badge = article.querySelector('[class*="rounded-full"][class*="text-white"][class*="font-bold"]:not([class*="w-9"])');
-            if (badge) badge.textContent = label.toUpperCase();
+            if (badge) {
+                // If it contains an ID span, don't overwrite entirely
+                const span = badge.querySelector('span[id]');
+                if (!span) badge.textContent = label.toUpperCase();
+            }
         });
+
+        const fmtMini = (d) => `${d.getDate()} ${MONTHS_IT[d.getMonth()].slice(0,3).charAt(0).toUpperCase() + MONTHS_IT[d.getMonth()].slice(0,3).slice(1)}`;
+        
+        // Mini cards Tappa 0
+        const d0_1 = new Date(dep);
+        const d0_2 = new Date(dep); d0_2.setDate(dep.getDate() + 1);
+        const d0_3 = new Date(dep); d0_3.setDate(dep.getDate() + 2);
+        if (document.getElementById('t0-d1')) document.getElementById('t0-d1').textContent = fmtMini(d0_1);
+        if (document.getElementById('t0-d2')) document.getElementById('t0-d2').textContent = fmtMini(d0_2);
+        if (document.getElementById('t0-d3')) document.getElementById('t0-d3').textContent = fmtMini(d0_3);
+
+        // Mini cards Tappa 6
+        const d6_1 = new Date(dep); d6_1.setDate(dep.getDate() + 19);
+        const d6_2 = new Date(dep); d6_2.setDate(dep.getDate() + 20);
+        const d6_3 = new Date(dep); d6_3.setDate(dep.getDate() + 21);
+        if (document.getElementById('t6-d1')) document.getElementById('t6-d1').textContent = fmtMini(d6_1);
+        if (document.getElementById('t6-d2')) document.getElementById('t6-d2').textContent = fmtMini(d6_2);
+        if (document.getElementById('t6-d3')) document.getElementById('t6-d3').textContent = fmtMini(d6_3);
+
+        // Final rest day
+        const rest = new Date(dep); rest.setDate(dep.getDate() + 22);
+        const restEl = document.getElementById('final-rest-day');
+        if (restEl) {
+            const days = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+            restEl.innerHTML = `<strong>${days[rest.getDay()]} ${rest.getDate()} ${MONTHS_IT[rest.getMonth()].charAt(0).toUpperCase() + MONTHS_IT[rest.getMonth()].slice(1)}:</strong> Riposo totale.`;
+        }
 
         // Update total km label
         const kmLabel = document.getElementById('total-km-label');
         if (kmLabel && !document.getElementById('dep-city')?.value) {
-            const totalDays = dep; // keep label default if no city set
+            // Keep existing logic
         }
     }
 
