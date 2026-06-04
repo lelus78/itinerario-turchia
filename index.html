@@ -1172,15 +1172,12 @@
         <p class="serif text-3xl text-white/80 mb-2 font-light italic">Vanlife Adventures</p>
         <p class="text-sm">© 2026 · Creato per esploratori su ruote</p>
 
-        <!-- Visitor counter -->
-        <div class="flex items-center justify-center gap-2 mt-4">
-            <div class="inline-flex items-center gap-2.5 bg-white/5 border border-white/10 rounded-full px-5 py-2 backdrop-blur-sm">
-                <i class="fa-solid fa-eye text-brand text-xs"></i>
-                <span class="text-xs text-slate-400 uppercase tracking-widest">Visitatori</span>
-                <span id="hit-count" class="text-sm font-bold text-white/80 tabular-nums min-w-[2rem] text-center">
-                    <span class="inline-block w-4 h-1 bg-white/20 rounded animate-pulse"></span>
-                </span>
-            </div>
+        <!-- Visitor counter — hits.seeyoufarm.com (img tag, no CORS, auto-increment) -->
+        <div class="flex items-center justify-center mt-4">
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Flelus78.github.io%2Fitinerario-turchia%2F&count_bg=%230ea5e9&title_bg=%231e293b&icon=eye&icon_color=%23FFFFFF&title=Visitatori&edge_flat=true"
+                 alt="Contatore visitatori"
+                 height="22"
+                 class="rounded opacity-80 hover:opacity-100 transition-opacity">
         </div>
     </div>
 </footer>
@@ -1771,35 +1768,7 @@
         }
     })();
 
-    // ── Visitor counter ──
-    (function initCounter() {
-        const el = document.getElementById('hit-count');
-        if (!el) return;
-
-        const site = 'lelus78.github.io/itinerario-turchia';
-        const counterUrl = `https://hits.sh/${site}.svg`;
-
-        // Trigger hit via invisible image (always works, bypasses CORS for counting)
-        const hitTrigger = new Image();
-        hitTrigger.src = counterUrl + '?trigger=' + Date.now();
-
-        // Try to fetch text to update the UI
-        fetch(counterUrl)
-            .then(r => r.text())
-            .then(svg => {
-                // Find all numbers inside <text> tags
-                const matches = svg.match(/>(\d+)</g);
-                if (matches && matches.length > 0) {
-                    const count = matches[matches.length - 1].replace(/[><]/g, '');
-                    el.innerHTML = parseInt(count).toLocaleString('it-IT');
-                } else {
-                    el.innerHTML = '1.240';
-                }
-            })
-            .catch(() => {
-                el.innerHTML = '1.240'; 
-            });
-    })();
+    // Counter now handled by hits.seeyoufarm.com img badge in footer (no JS needed)
 </script>
 </body>
 </html>
