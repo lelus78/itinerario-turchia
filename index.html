@@ -147,61 +147,66 @@
 
         #t-road {
             position: absolute;
-            left: 8px;
+            left: 7px;
             top: 0; bottom: 0;
-            width: 6px;
-            background: #e2e8f0;
-            border-radius: 3px;
-            overflow: hidden;
+            width: 2px;
+            background: rgba(148,163,184,0.35);
+            border-radius: 1px;
         }
         #t-fill {
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 0%;
-            background: linear-gradient(to bottom, #0ea5e9, #10b981);
+            background: var(--brand);
             transition: height 0.7s ease;
         }
         #t-van {
             position: absolute;
-            left: -10px;
-            top: -10px;
+            left: -3px;
+            top: -11px;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--brand);
+            color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px;
+            box-shadow: 0 2px 10px rgba(14,165,233,0.45), 0 0 0 3px rgba(14,165,233,0.15);
             transition: top 0.75s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2;
-            filter: drop-shadow(0 2px 6px rgba(14,165,233,0.5));
+            z-index: 3;
         }
         .t-stop {
             position: absolute;
             left: 0;
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 12px;
             transform: translateY(-50%);
             cursor: pointer;
         }
         .t-dot {
-            width: 14px; height: 14px; flex-shrink: 0;
+            width: 8px; height: 8px; flex-shrink: 0;
+            margin-left: 4px;
             border-radius: 50%;
-            background: #e2e8f0;
-            border: 2.5px solid #fff;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-            transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
+            background: #cbd5e1;
+            transition: background 0.4s, transform 0.3s;
         }
         .t-stop.active .t-dot {
-            background: #0ea5e9;
-            transform: scale(1.45);
-            box-shadow: 0 0 0 3px rgba(14,165,233,0.25);
+            background: var(--brand);
+            transform: scale(1.35);
         }
-        .t-stop.done .t-dot { background: #10b981; }
+        .t-stop.done .t-dot { background: var(--brand); opacity: 0.45; }
         .t-label {
-            font-size: 8.5px; font-weight: 700;
+            font-size: 9px; font-weight: 600;
             color: #94a3b8;
             text-transform: uppercase;
-            letter-spacing: 0.07em;
+            letter-spacing: 0.09em;
             white-space: nowrap;
             transition: color 0.4s;
         }
-        .t-stop.active .t-label { color: #0ea5e9; }
-        .t-stop.done .t-label { color: #10b981; }
+        .t-stop.active .t-label { color: var(--brand); font-weight: 700; }
+        .t-stop.done .t-label { color: #64748b; }
+        html.dark #t-road { background: rgba(71,85,105,0.5); }
+        html.dark .t-dot { background: #475569; }
         /* Stop positions via nth-child (avoids inline styles) */
         .t-stop:nth-child(3) { top: 0%; }
         .t-stop:nth-child(4) { top: 16.67%; }
@@ -281,7 +286,6 @@
         html.dark .note-ta { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
         html.dark .hero-bg::after { background: linear-gradient(transparent, #0f172a) !important; }
         html.dark footer { background: #020617 !important; }
-        html.dark #van-tracker .t-dot { border-color: #334155 !important; }
         html.dark .check-item span { color: #cbd5e1 !important; }
 
         /* Badge pop in dark mode */
@@ -450,6 +454,19 @@
 
             /* Niente foto: risparmio inchiostro */
             article img, img.enlargeable { display: none !important; }
+
+            /* Nascondi cerchi numerati delle card (stampano male) */
+            .card-img [class*="top-4"] { display: none !important; }
+
+            /* Compatta margini e titoli */
+            section, .mt-24, .mt-16, .mt-12 { margin-top: 1.2rem !important; }
+            .serif.text-5xl { font-size: 1.7rem !important; }
+            .text-center.mb-12, .text-center.mb-10 {
+                margin-bottom: 0.8rem !important;
+                break-after: avoid;
+                break-inside: avoid;
+            }
+            h2, h3, h4 { break-after: avoid; }
         }
     </style>
 
@@ -1005,7 +1022,7 @@
                         <div class="w-10 h-10 bg-white text-green-600 font-bold rounded-full flex items-center justify-center shadow border border-green-200 text-sm">6</div>
                     </div>
                     <h2 class="serif text-3xl font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">Sprint Finale di Rientro</h2>
-                    <p class="text-slate-500 text-sm mb-5">Domenica 16 agosto come giornata di recupero prima della riapertura.</p>
+                    <p class="text-slate-500 text-sm mb-5">Tre giorni di autostrada, poi una giornata di recupero totale prima di tornare alla routine.</p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 text-center">
@@ -1550,20 +1567,7 @@
     <div id="t-road">
         <div id="t-fill"></div>
     </div>
-    <div id="t-van">
-        <svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="6" width="33" height="12" rx="2.5" fill="#0ea5e9"/>
-            <path d="M24 6L29 1H35V6H24Z" fill="#0284c7"/>
-            <rect x="3" y="8" width="8" height="5" rx="1.5" fill="#bae6fd" opacity="0.9"/>
-            <rect x="13" y="8" width="6" height="5" rx="1.5" fill="#bae6fd" opacity="0.9"/>
-            <rect x="27" y="2" width="7" height="4" rx="1" fill="#bae6fd" opacity="0.9"/>
-            <line x1="22" y1="7" x2="22" y2="17" stroke="#0284c7" stroke-width="0.8"/>
-            <circle cx="9" cy="18" r="3.2" fill="#1e293b"/>
-            <circle cx="9" cy="18" r="1.4" fill="#64748b"/>
-            <circle cx="27" cy="18" r="3.2" fill="#1e293b"/>
-            <circle cx="27" cy="18" r="1.4" fill="#64748b"/>
-        </svg>
-    </div>
+    <div id="t-van"><i class="fa-solid fa-van-shuttle"></i></div>
     <!-- 7 tappe: 0-6 -->
     <div class="t-stop active" data-i="0"><div class="t-dot"></div><span class="t-label">Partenza</span></div>
     <div class="t-stop" data-i="1"><div class="t-dot"></div><span class="t-label">Istanbul</span></div>
@@ -1766,7 +1770,7 @@
         // Van position: evenly distributed 0..100% of tracker height
         const pct = idx / 6;
         const trackH = tTracker.offsetHeight;
-        tVan.style.top = (pct * trackH - 10) + 'px';
+        tVan.style.top = (pct * trackH - 11) + 'px';
         if (tFill) tFill.style.height = (pct * 100) + '%';
     }
 
