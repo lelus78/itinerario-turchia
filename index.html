@@ -359,6 +359,14 @@
 
         /* Tag chips */
         .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
+        a.chip { transition: box-shadow 0.2s, filter 0.2s; }
+        a.chip:hover { filter: brightness(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+        /* Link esterni inline */
+        .xlink { color: var(--brand); font-weight: 600; text-decoration: none; border-bottom: 1px dotted rgba(14,165,233,0.55); }
+        .xlink:hover { border-bottom-style: solid; }
+        html.dark .xlink { color: #7dd3fc; border-bottom-color: rgba(125,211,252,0.5); }
+        .ext-ico { font-size: 8px; opacity: 0.65; margin-left: 1px; vertical-align: 1px; }
 
         /* ── Polish generale ── */
         ::selection { background: rgba(14,165,233,0.25); }
@@ -458,6 +466,10 @@
             /* Nascondi cerchi numerati delle card (stampano male) */
             .card-img [class*="top-4"] { display: none !important; }
 
+            /* Link come testo semplice su carta */
+            .xlink { color: inherit !important; border-bottom: none !important; font-weight: inherit; }
+            .ext-ico { display: none !important; }
+
             /* Compatta margini e titoli */
             section, .mt-24, .mt-16, .mt-12 { margin-top: 1.2rem !important; }
             .serif.text-5xl { font-size: 1.7rem !important; }
@@ -548,7 +560,7 @@
                     <i class="fa-solid fa-flag text-rose-300 text-sm"></i>
                 </div>
                 <div>
-                    <p class="text-3xl font-extrabold counter" data-target="4">0</p>
+                    <p class="text-3xl font-extrabold counter" data-target="6">0</p>
                     <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">paesi</p>
                 </div>
             </div>
@@ -647,7 +659,7 @@
                     <!-- count stays 6: removed e-visa, added delega -->
                 </div>
                 <div class="space-y-1" data-group="doc">
-                    <label class="check-item"><input type="checkbox" data-key="doc-1"><span>✅ <strong>Niente visto!</strong> Italiani esenti fino a 90 giorni</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="doc-1"><span>✅ <strong>Niente visto!</strong> Italiani esenti fino a 90 giorni — verifica aggiornamenti su <a href="https://www.viaggiaresicuri.it/find-country/country/TUR" target="_blank" rel="noopener" class="xlink">Viaggiare Sicuri</a></span></label>
                     <label class="check-item"><input type="checkbox" data-key="doc-2"><span>Carta d'identità <strong>valida per l'espatrio</strong> — oppure passaporto (min. 5 mesi residui all'ingresso)</span></label>
                     <label class="check-item"><input type="checkbox" data-key="doc-3"><span><strong>Carta Verde:</strong> verifica che la casella <strong>TR non sia sbarrata</strong> — altrimenti polizza temporanea al confine (~€50-80)</span></label>
                     <label class="check-item"><input type="checkbox" data-key="doc-4"><span>Libretto di circolazione <strong>originale</strong> del camper</span></label>
@@ -682,9 +694,9 @@
                     <span class="text-xs font-bold text-slate-400" data-prog="pay">0/5</span>
                 </div>
                 <div class="space-y-1" data-group="pay">
-                    <label class="check-item"><input type="checkbox" data-key="pay-1"><span>Carta senza commissioni estero (Revolut/N26)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="pay-1"><span>Carta senza commissioni estero (<a href="https://www.revolut.com/it-IT/" target="_blank" rel="noopener" class="xlink">Revolut</a> / <a href="https://n26.com/it-it" target="_blank" rel="noopener" class="xlink">N26</a>)</span></label>
                     <label class="check-item"><input type="checkbox" data-key="pay-2"><span>€200-300 cash da cambiare in Lire Turche a Istanbul (tassi migliori al Bazaar)</span></label>
-                    <label class="check-item"><input type="checkbox" data-key="pay-3"><span>HGS pedaggi: comprare all'ingresso in Turchia (PTT o area di servizio)</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="pay-3"><span>HGS pedaggi: comprare all'ingresso in Turchia (<a href="https://www.ptt.gov.tr/" target="_blank" rel="noopener" class="xlink">uffici PTT</a> o area di servizio)</span></label>
                     <label class="check-item"><input type="checkbox" data-key="pay-4"><span>Notifica alla banca: uso carta all'estero (evita blocchi)</span></label>
                     <label class="check-item"><input type="checkbox" data-key="pay-5"><span>Budget carburante: ~€350-400 (gasolio in Turchia ~€1.40/l)</span></label>
                 </div>
@@ -698,12 +710,12 @@
                     <span class="text-xs font-bold text-slate-400" data-prog="app">0/6</span>
                 </div>
                 <div class="space-y-1" data-group="app">
-                    <label class="check-item"><input type="checkbox" data-key="app-1"><span><strong>Park4Night</strong> — soste camper recensite</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-1"><span><strong><a href="https://park4night.com/it" target="_blank" rel="noopener" class="xlink">Park4Night</a></strong> — soste camper recensite</span></label>
                     <label class="check-item"><input type="checkbox" data-key="app-2"><span><strong>Google Maps offline</strong> — scarica la mappa della Turchia</span></label>
-                    <label class="check-item"><input type="checkbox" data-key="app-3"><span><strong>iOverlander</strong> — soste camper alternative</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-3"><span><strong><a href="https://ioverlander.com/" target="_blank" rel="noopener" class="xlink">iOverlander</a></strong> — soste camper alternative</span></label>
                     <label class="check-item"><input type="checkbox" data-key="app-4"><span><strong>Google Translate</strong> — abilita traduzione offline turco</span></label>
-                    <label class="check-item"><input type="checkbox" data-key="app-5"><span><strong>XE Currency</strong> — cambio €/TRY in tempo reale</span></label>
-                    <label class="check-item"><input type="checkbox" data-key="app-6"><span><strong>SIM turca / eSIM</strong> (Airalo, Holafly) — da attivare a Istanbul</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-5"><span><strong><a href="https://www.xe.com/it/apps/" target="_blank" rel="noopener" class="xlink">XE Currency</a></strong> — cambio €/TRY in tempo reale</span></label>
+                    <label class="check-item"><input type="checkbox" data-key="app-6"><span><strong>SIM turca / eSIM</strong> (<a href="https://www.airalo.com/it/turkey-esim" target="_blank" rel="noopener" class="xlink">Airalo</a>, <a href="https://esim.holafly.com/it/esim-turchia/" target="_blank" rel="noopener" class="xlink">Holafly</a>) — da attivare a Istanbul</span></label>
                 </div>
                 <div class="prep-bar mt-3"><div class="prep-bar-fill"></div></div>
             </div>
@@ -812,10 +824,10 @@
                     <p class="text-slate-500 text-sm mb-5 leading-relaxed">Metropoli vibrante dove Europa incontra Asia, divisa dal Bosforo. Quattro giorni non bastano mai.</p>
 
                     <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">🕌 Santa Sofia</span>
-                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">🕌 Moschea Blu</span>
-                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">🏛 Topkapı</span>
-                        <span class="chip bg-sky-50 text-sky-700 border border-sky-200">💧 Cisterna Basilica</span>
+                        <a href="https://www.ayasofyacamii.gov.tr/en" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-sky-50 text-sky-700 border border-sky-200">🕌 Santa Sofia <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.sultanahmetcamii.org/" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-sky-50 text-sky-700 border border-sky-200">🕌 Moschea Blu <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://muze.gen.tr/muze-detay/topkapi" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-sky-50 text-sky-700 border border-sky-200">🏛 Topkapı <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://yerebatan.com/en/" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-sky-50 text-sky-700 border border-sky-200">💧 Cisterna Basilica <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
                     </div>
 
                     <div class="grid grid-cols-3 gap-2 mb-5">
@@ -828,8 +840,9 @@
                         <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
                             <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
                         </p>
-                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Yenikapı Caravan RV Park — sicuro, sul mare, fuori dalla ZTL.</p>
-                        <p class="text-sky-900"><strong>Trasporti:</strong> Treno Marmaray → Sirkeci (4 min), poi a piedi per Sultanahmet.</p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Yenikapi+Caravan+RV+Park+Istanbul" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Yenikapı Caravan RV Park <i class="fa-solid fa-map-location-dot ext-ico"></i></a> — sicuro, sul mare, fuori dalla ZTL.</p>
+                        <p class="text-sky-900 mb-1"><strong>Trasporti:</strong> Treno Marmaray → Sirkeci (4 min), poi a piedi per Sultanahmet.</p>
+                        <p class="text-sky-900"><strong>Biglietti:</strong> prenota online la <a href="https://yerebatan.com/en/" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Cisterna Basilica</a> e <a href="https://muze.gen.tr/muze-detay/topkapi" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Topkapı</a> — salti code lunghissime in estate.</p>
                     </div>
 
                     <div class="route-pill">
@@ -856,9 +869,9 @@
                     <p class="text-slate-500 text-sm mb-5 leading-relaxed">Uno dei siti archeologici meglio conservati del Mediterraneo — un vero salto nel tempo.</p>
 
                     <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="chip bg-amber-50 text-amber-700 border border-amber-200">📚 Biblioteca di Celso</span>
-                        <span class="chip bg-amber-50 text-amber-700 border border-amber-200">🎭 Grande Teatro</span>
-                        <span class="chip bg-amber-50 text-amber-700 border border-amber-200">🏛 Tempio di Adriano</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Library+of+Celsus+Ephesus" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-amber-50 text-amber-700 border border-amber-200">📚 Biblioteca di Celso <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Great+Theatre+of+Ephesus" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-amber-50 text-amber-700 border border-amber-200">🎭 Grande Teatro <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Temple+of+Hadrian+Ephesus" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-amber-50 text-amber-700 border border-amber-200">🏛 Tempio di Adriano <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
                     </div>
 
                     <div class="grid grid-cols-3 gap-2 mb-5">
@@ -871,8 +884,9 @@
                         <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
                             <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
                         </p>
-                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Dereli Valley Campsite (Pamucak) — verde, vicino alla spiaggia.</p>
-                        <p class="text-sky-900"><strong>Trasporti:</strong> Dolmuş ogni 20-30 min verso Selçuk → scendi alla Lower Gate.</p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Dereli+Valley+Campsite+Pamucak" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Dereli Valley Campsite <i class="fa-solid fa-map-location-dot ext-ico"></i></a> (Pamucak) — verde, vicino alla spiaggia.</p>
+                        <p class="text-sky-900 mb-1"><strong>Trasporti:</strong> Dolmuş ogni 20-30 min verso Selçuk → scendi alla Lower Gate.</p>
+                        <p class="text-sky-900"><strong>Biglietti:</strong> acquistabili online su <a href="https://muze.gov.tr/en" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">muze.gov.tr</a> (sito ufficiale musei turchi).</p>
                     </div>
 
                     <div class="route-pill">
@@ -899,8 +913,8 @@
                     <p class="text-slate-500 text-sm mb-5 leading-relaxed">Terrazze di travertino bianco candido con piscine termali naturali azzurre — un paesaggio alieno.</p>
 
                     <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🏛 Hierapolis</span>
-                        <span class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🏊 Piscina di Cleopatra</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hierapolis+Pamukkale" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🏛 Hierapolis <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Cleopatra+Antique+Pool+Pamukkale" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🏊 Piscina di Cleopatra <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
                         <span class="chip bg-cyan-50 text-cyan-700 border border-cyan-200">🌅 Tramonto sulle terrazze</span>
                     </div>
 
@@ -913,8 +927,9 @@
                         <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
                             <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
                         </p>
-                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Tepe Camping (Kurtluca Mah) — posizione panoramica in cima alla collina.</p>
-                        <p class="text-sky-900"><strong>Consiglio:</strong> Entra nel pomeriggio per il tramonto sulle terrazze bianche.</p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Tepe+Camping+Pamukkale" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Tepe Camping <i class="fa-solid fa-map-location-dot ext-ico"></i></a> (Kurtluca Mah) — posizione panoramica in cima alla collina.</p>
+                        <p class="text-sky-900 mb-1"><strong>Consiglio:</strong> Entra nel pomeriggio per il tramonto sulle terrazze bianche.</p>
+                        <p class="text-sky-900"><strong>Biglietti:</strong> Hierapolis-Pamukkale su <a href="https://muze.gov.tr/en" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">muze.gov.tr</a> — include le terrazze e il sito archeologico.</p>
                     </div>
 
                     <div class="route-pill">
@@ -941,9 +956,9 @@
                     <p class="text-slate-500 text-sm mb-5 leading-relaxed">La D400 è una delle strade più belle d'Europa: costa smeraldo, baie nascoste e borghi pittoreschi.</p>
 
                     <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="chip bg-teal-50 text-teal-700 border border-teal-200">🦅 Ölüdeniz Laguna Blu</span>
-                        <span class="chip bg-teal-50 text-teal-700 border border-teal-200">🏖 Kaputaş Beach</span>
-                        <span class="chip bg-teal-50 text-teal-700 border border-teal-200">🏛 Antalya Kaleiçi</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Oludeniz+Blue+Lagoon" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-teal-50 text-teal-700 border border-teal-200">🦅 Ölüdeniz Laguna Blu <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Kaputas+Beach" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-teal-50 text-teal-700 border border-teal-200">🏖 Kaputaş Beach <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Kaleici+Antalya" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-teal-50 text-teal-700 border border-teal-200">🏛 Antalya Kaleiçi <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
                     </div>
 
                     <div class="flex gap-2 mb-5 overflow-x-auto pb-1">
@@ -956,9 +971,9 @@
                         <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
                             <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Sulla Costa
                         </p>
-                        <p class="text-sky-900 mb-1"><strong>Kaş:</strong> Olympos Mocamp — bus ogni 30 min o 20 min a piedi dal centro.</p>
-                        <p class="text-sky-900 mb-1"><strong>Antalya:</strong> Konyaaltı Camper Stop — bus KL08 diretto a Hadrian's Gate.</p>
-                        <p class="text-sky-900"><strong>Fethiye:</strong> Deep Ocean Camping (Faralya) — dolmuş verso Kabak/Ölüdeniz.</p>
+                        <p class="text-sky-900 mb-1"><strong>Kaş:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Olympos+Mocamp+Kas" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Olympos Mocamp <i class="fa-solid fa-map-location-dot ext-ico"></i></a> — bus ogni 30 min o 20 min a piedi dal centro.</p>
+                        <p class="text-sky-900 mb-1"><strong>Antalya:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Konyaalti+Camper+Stop+Antalya" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Konyaaltı Camper Stop <i class="fa-solid fa-map-location-dot ext-ico"></i></a> — bus KL08 diretto a Hadrian's Gate.</p>
+                        <p class="text-sky-900"><strong>Fethiye:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Deep+Ocean+Camping+Faralya" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Deep Ocean Camping <i class="fa-solid fa-map-location-dot ext-ico"></i></a> (Faralya) — dolmuş verso Kabak/Ölüdeniz.</p>
                     </div>
 
                     <div class="route-pill">
@@ -985,9 +1000,9 @@
                     <p class="text-slate-500 text-sm mb-5 leading-relaxed">Camini delle fate, chiese rupestri e città sotterranee. E svegliarsi all'alba con 200 mongolfiere in cielo.</p>
 
                     <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="chip bg-rose-50 text-rose-700 border border-rose-200">🌋 Göreme Open Air Museum</span>
-                        <span class="chip bg-rose-50 text-rose-700 border border-rose-200">🕳 Derinkuyu Sotterranea</span>
-                        <span class="chip bg-rose-50 text-rose-700 border border-rose-200">🎈 Mongolfiere all'alba</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Goreme+Open+Air+Museum" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-rose-50 text-rose-700 border border-rose-200">🌋 Göreme Open Air Museum <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Derinkuyu+Underground+City" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-rose-50 text-rose-700 border border-rose-200">🕳 Derinkuyu Sotterranea <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
+                        <a href="https://www.getyourguide.it/s/?q=cappadocia+mongolfiera" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="chip bg-rose-50 text-rose-700 border border-rose-200">🎈 Mongolfiere all'alba <i class="fa-solid fa-arrow-up-right-from-square ext-ico"></i></a>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 mb-5">
@@ -999,8 +1014,9 @@
                         <p class="font-bold text-sky-800 flex items-center gap-2 mb-2 uppercase tracking-wide text-[10px]">
                             <i class="fa-solid fa-van-shuttle text-brand"></i> Logistica Camper
                         </p>
-                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> Panorama Camping (Göreme) — vista imbattibile sulle mongolfiere all'alba.</p>
-                        <p class="text-sky-900"><strong>A piedi:</strong> 10 min dal centro di Göreme. Mongolfiere visibili da Love Valley.</p>
+                        <p class="text-sky-900 mb-1"><strong>Sosta:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Panorama+Camping+Goreme" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">Panorama Camping <i class="fa-solid fa-map-location-dot ext-ico"></i></a> (Göreme) — vista imbattibile sulle mongolfiere all'alba.</p>
+                        <p class="text-sky-900 mb-1"><strong>A piedi:</strong> 10 min dal centro di Göreme. Mongolfiere visibili da Love Valley.</p>
+                        <p class="text-sky-900"><strong>Volo in mongolfiera:</strong> prenota 2-3 giorni prima su <a href="https://www.getyourguide.it/s/?q=cappadocia+mongolfiera" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="xlink">GetYourGuide</a> — con recensioni e cancellazione gratuita.</p>
                     </div>
 
                     <div class="route-pill">
@@ -1319,14 +1335,14 @@
                     <i class="fa-solid fa-ticket"></i>
                 </div>
                 <h4 class="text-xl font-bold text-slate-800 mb-2">Pedaggi HGS</h4>
-                <p class="text-slate-500 text-sm leading-relaxed">Obbligatorio per autostrade e ponti di Istanbul. È un adesivo con chip — acquistalo negli uffici PTT o nelle grandi aree di servizio all'ingresso del paese.</p>
+                <p class="text-slate-500 text-sm leading-relaxed">Obbligatorio per autostrade e ponti di Istanbul. È un adesivo con chip — acquistalo negli <a href="https://www.ptt.gov.tr/" target="_blank" rel="noopener" class="xlink">uffici PTT</a> o nelle grandi aree di servizio all'ingresso del paese.</p>
             </div>
             <div class="reveal delay-1 glass p-7 rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300 border-t-4 border-green-500 group">
                 <div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-500 text-2xl mb-5 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-campground"></i>
                 </div>
                 <h4 class="text-xl font-bold text-slate-800 mb-2">Sosta Libera</h4>
-                <p class="text-slate-500 text-sm leading-relaxed">Generalmente ben tollerata e sicura, specialmente fuori dalle metropoli e sulle spiagge remote. Usa <strong>Park4Night</strong> per trovare spot recensiti.</p>
+                <p class="text-slate-500 text-sm leading-relaxed">Generalmente ben tollerata e sicura, specialmente fuori dalle metropoli e sulle spiagge remote. Usa <a href="https://park4night.com/it" target="_blank" rel="noopener" class="xlink">Park4Night</a> per trovare spot recensiti.</p>
             </div>
             <div class="reveal delay-2 glass p-7 rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300 border-t-4 border-amber-500 group">
                 <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center text-amber-500 text-2xl mb-5 group-hover:scale-110 transition-transform">
@@ -1438,7 +1454,7 @@
                     </div>
                     <p class="ml-auto font-extrabold text-slate-800">€120<span class="text-slate-400 text-xs font-semibold">–160</span></p>
                 </div>
-                <p class="text-xs text-slate-500">Include la vignetta slovena, l'autostrada serba e il sistema HGS turco.</p>
+                <p class="text-xs text-slate-500">Compra online la <a href="https://evinjeta.dars.si/selfcare/#/" target="_blank" rel="noopener" class="xlink">e-vinjeta slovena</a> e la <a href="https://www.bgtoll.bg/en" target="_blank" rel="noopener" class="xlink">vignetta bulgara</a> prima di partire; Croazia e Serbia si pagano al casello.</p>
             </div>
             <div class="prep-card reveal delay-2">
                 <div class="flex items-center gap-3 mb-2">
@@ -1471,7 +1487,7 @@
                     </div>
                     <p class="ml-auto font-extrabold text-slate-800">€200<span class="text-slate-400 text-xs font-semibold">–300</span></p>
                 </div>
-                <p class="text-xs text-slate-500">Efeso, Hierapolis, Göreme, Topkapı, Cisterna… Museum Pass Türkiye se visiti molto.</p>
+                <p class="text-xs text-slate-500">Efeso, Hierapolis, Göreme, Topkapı, Cisterna… Il <a href="https://muze.gov.tr/en" target="_blank" rel="noopener" class="xlink">Museum Pass Türkiye</a> conviene se visiti molti siti.</p>
             </div>
             <div class="prep-card reveal delay-2">
                 <div class="flex items-center gap-3 mb-2">
@@ -1513,7 +1529,7 @@
             </details>
             <details class="faq-item">
                 <summary>Che documenti servono per entrare con il van? <i class="fa-solid fa-plus faq-icon"></i></summary>
-                <div class="faq-body">Per gli italiani niente visto fino a 90 giorni. Servono: carta d'identità valida per l'espatrio (o passaporto), libretto di circolazione originale, Carta Verde con casella TR non sbarrata. Se il van non è intestato a te, porta una delega tradotta. Al confine: pazienza, può richiedere 1-3 ore.</div>
+                <div class="faq-body">Per gli italiani niente visto fino a 90 giorni. Servono: carta d'identità valida per l'espatrio (o passaporto), libretto di circolazione originale, Carta Verde con casella TR non sbarrata. Se il van non è intestato a te, porta una delega tradotta. Al confine: pazienza, può richiedere 1-3 ore. Info sempre aggiornate su <a href="https://www.viaggiaresicuri.it/find-country/country/TUR" target="_blank" rel="noopener" class="xlink">Viaggiare Sicuri</a>.</div>
             </details>
             <details class="faq-item">
                 <summary>Serve un van particolare? Il mio è vecchio/piccolo… <i class="fa-solid fa-plus faq-icon"></i></summary>
@@ -1521,7 +1537,7 @@
             </details>
             <details class="faq-item">
                 <summary>Si può fare sosta libera? <i class="fa-solid fa-plus faq-icon"></i></summary>
-                <div class="faq-body">Sì, in Turchia la sosta libera è generalmente tollerata e diffusa, soprattutto fuori dalle città e sulla costa. Park4Night e iOverlander sono pieni di spot recensiti. Nelle grandi città (Istanbul) meglio un'area attrezzata custodita come Yenikapı RV Park.</div>
+                <div class="faq-body">Sì, in Turchia la sosta libera è generalmente tollerata e diffusa, soprattutto fuori dalle città e sulla costa. <a href="https://park4night.com/it" target="_blank" rel="noopener" class="xlink">Park4Night</a> e <a href="https://ioverlander.com/" target="_blank" rel="noopener" class="xlink">iOverlander</a> sono pieni di spot recensiti. Nelle grandi città (Istanbul) meglio un'area attrezzata custodita come Yenikapı RV Park.</div>
             </details>
             <details class="faq-item">
                 <summary>Quanto costa il viaggio in totale? <i class="fa-solid fa-plus faq-icon"></i></summary>
@@ -1529,7 +1545,7 @@
             </details>
             <details class="faq-item">
                 <summary>Internet e telefono funzionano? <i class="fa-solid fa-plus faq-icon"></i></summary>
-                <div class="faq-body">Il roaming UE non copre la Turchia: prendi una eSIM (Airalo, Holafly, ~€20-30 per 20-30 GB) o una SIM turca fisica a Istanbul. La copertura 4G lungo l'itinerario è ottima, anche in Cappadocia.</div>
+                <div class="faq-body">Il roaming UE non copre la Turchia: prendi una eSIM (<a href="https://www.airalo.com/it/turkey-esim" target="_blank" rel="noopener" class="xlink">Airalo</a>, <a href="https://esim.holafly.com/it/esim-turchia/" target="_blank" rel="noopener" class="xlink">Holafly</a>, ~€20-30 per 20-30 GB) o una SIM turca fisica a Istanbul. La copertura 4G lungo l'itinerario è ottima, anche in Cappadocia.</div>
             </details>
             <details class="faq-item">
                 <summary>Posso replicare questo itinerario con date diverse? <i class="fa-solid fa-plus faq-icon"></i></summary>
