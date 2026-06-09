@@ -427,8 +427,29 @@
             background: linear-gradient(120deg, rgba(10,18,35,0.88) 25%, rgba(10,18,35,0.45) 70%, rgba(201,151,58,0.25) 100%);
         }
 
+        /* ── Stampa: solo il materiale utile da tenere in van ── */
+        .print-only { display: none; }
         @media print {
-            #dark-toggle, #van-tracker, .scroll-arrow, #map, .cta-bg, footer { display: none !important; }
+            .print-only { display: block; }
+            .no-print, #dark-toggle, #van-tracker, .scroll-arrow, footer, #lightbox,
+            .temp-badge, details { display: none !important; }
+
+            body { background: #fff !important; }
+            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+            main { padding-top: 0 !important; }
+
+            article, .prep-card, .glass { box-shadow: none !important; break-inside: avoid; }
+            article { border: 1px solid #cbd5e1 !important; margin-bottom: 12px; }
+
+            /* Card tappe: tieni titolo e date, togli la foto */
+            .card-img { height: auto !important; padding: 0.6rem 1rem 0 !important; }
+            .card-img img, .card-img .img-overlay { display: none !important; }
+            .card-img .absolute { position: static !important; }
+            .card-img .text-white,
+            .card-img [class*="text-white"] { color: #0f172a !important; }
+
+            /* Niente foto: risparmio inchiostro */
+            article img, img.enlargeable { display: none !important; }
         }
     </style>
 
@@ -453,7 +474,7 @@
     <i id="dark-icon" class="fa-solid fa-moon text-sm"></i>
 </button>
 
-<header class="hero-bg text-white min-h-[88vh] flex flex-col justify-center px-6 md:px-14 lg:px-24 relative overflow-hidden">
+<header class="no-print hero-bg text-white min-h-[88vh] flex flex-col justify-center px-6 md:px-14 lg:px-24 relative overflow-hidden">
     <div class="hero-img" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
 
@@ -534,8 +555,14 @@
 <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
 <main class="container mx-auto px-4 py-16 md:py-20 max-w-7xl" id="itinerario">
 
+    <!-- Intestazione visibile solo in stampa -->
+    <div class="print-only" style="margin-bottom:18px; border-bottom:2px solid #0ea5e9; padding-bottom:10px;">
+        <h1 class="serif" style="font-size:26px; font-weight:700; color:#0f172a; margin-bottom:2px;">Turchia in Camper Van — Il Grande Tour</h1>
+        <p style="font-size:11px; color:#475569;">22 giorni · ~6.000 km · Istanbul → Efeso → Pamukkale → Costa Turchese → Cappadocia → rientro</p>
+    </div>
+
     <!-- ═══════════════ QUOTE ═══════════════ -->
-    <div class="big-quote relative text-center max-w-3xl mx-auto mb-20 pt-16 reveal">
+    <div class="no-print big-quote relative text-center max-w-3xl mx-auto mb-20 pt-16 reveal">
         <p class="serif text-3xl md:text-4xl font-light italic text-slate-700 leading-snug">
             Due continenti, seimila chilometri, ventidue giorni.<br class="hidden md:block">
             Il viaggio che ti cambia il modo di viaggiare.
@@ -548,7 +575,7 @@
     </div>
 
     <!-- ═══════════════ PERSONALIZZA ═══════════════ -->
-    <div class="mb-10 reveal">
+    <div class="no-print mb-10 reveal">
         <div class="bg-gradient-to-r from-brand/5 to-sky-50 rounded-3xl p-6 md:p-8 border border-brand/15">
             <div class="flex items-start gap-4 mb-5">
                 <div class="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand flex-shrink-0 mt-0.5">
@@ -1008,7 +1035,7 @@
         </div>
 
         <!-- RIGHT: Sticky map -->
-        <div class="lg:w-2/5">
+        <div class="no-print lg:w-2/5">
             <div class="sticky top-6 rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[420px] lg:h-[calc(100vh-3rem)] relative">
                 <div class="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-semibold text-slate-700 shadow-lg flex items-center pointer-events-none whitespace-nowrap">
                     <i class="fa-solid fa-hand-pointer text-brand mr-2"></i> Clicca sulle tappe
@@ -1020,7 +1047,7 @@
     </div>
 
     <!-- ═══════════════ MOMENTI WOW ═══════════════ -->
-    <section class="mt-24">
+    <section class="no-print mt-24">
         <div class="text-center mb-12">
             <div class="divider w-1/2 mx-auto mb-10"></div>
             <h3 class="serif text-5xl font-bold text-slate-800 mb-3">I Momenti che non Dimenticherai</h3>
@@ -1087,7 +1114,7 @@
     </section>
 
     <!-- ═══════════════ SAPORI & CULTURA ═══════════════ -->
-    <section class="mt-16">
+    <section class="no-print mt-16">
         <div class="text-center mb-12">
             <div class="divider w-1/2 mx-auto mb-10"></div>
             <h3 class="serif text-5xl font-bold text-slate-800 mb-3">Sapori &amp; Cultura</h3>
@@ -1180,7 +1207,7 @@
         </div>
 
         <!-- Galleria visiva: i cibi sicuri per celiaci -->
-        <div class="grid grid-cols-3 gap-3 mb-7 rounded-2xl overflow-hidden">
+        <div class="no-print grid grid-cols-3 gap-3 mb-7 rounded-2xl overflow-hidden">
             <div class="relative h-36 overflow-hidden rounded-xl group cursor-pointer">
                 <img src="Picture/Meze.png" alt="Meze – antipasti GF" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 enlargeable">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent pointer-events-none"></div>
@@ -1295,7 +1322,7 @@
     </section>
 
     <!-- ═══════════════ SOUVENIR SECTION ═══════════════ -->
-    <section class="mt-24">
+    <section class="no-print mt-24">
         <div class="text-center mb-12">
             <div class="divider w-1/2 mx-auto mb-10"></div>
             <h3 class="serif text-5xl font-bold text-slate-800 mb-3">
@@ -1363,7 +1390,7 @@
     </section>
 
     <!-- ═══════════════ BUDGET TOTALE ═══════════════ -->
-    <section class="mt-24">
+    <section class="no-print mt-24">
         <div class="text-center mb-12">
             <div class="divider w-1/2 mx-auto mb-10"></div>
             <span class="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-5">
@@ -1455,7 +1482,7 @@
     </section>
 
     <!-- ═══════════════ FAQ ═══════════════ -->
-    <section class="mt-24 max-w-3xl mx-auto">
+    <section class="no-print mt-24 max-w-3xl mx-auto">
         <div class="text-center mb-12">
             <div class="divider w-1/2 mx-auto mb-10"></div>
             <h3 class="serif text-5xl font-bold text-slate-800 mb-3">Domande Frequenti</h3>
@@ -1495,7 +1522,7 @@
     </section>
 
     <!-- ═══════════════ CTA FINALE ═══════════════ -->
-    <section class="mt-24 reveal">
+    <section class="no-print mt-24 reveal">
         <div class="cta-bg shadow-2xl">
             <div class="cta-img" aria-hidden="true"></div>
             <div class="cta-overlay" aria-hidden="true"></div>
